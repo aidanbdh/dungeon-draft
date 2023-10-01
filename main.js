@@ -13,6 +13,10 @@ for(const el of links) {
 document.getElementById('home-button').addEventListener('click', switchView)
 document.getElementById('get-started-btn').addEventListener('click', switchView)
 document.getElementById('rules-btn').addEventListener('click', switchView)
+const cardLinks = document.getElementsByClassName('card-link')
+for(const el of cardLinks) {
+    el.addEventListener('click', switchView)
+}
 
 
 
