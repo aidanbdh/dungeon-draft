@@ -1,5 +1,9 @@
 'use strict'
 
+/* ------- Profile Variables ------- */
+let loggedIn = false
+let profile = null
+
 
 /* ------- Nav Bar Functionality ------- */
 
@@ -18,13 +22,23 @@ for(const el of cardLinks) {
     el.addEventListener('click', switchView)
 }
 
+/* ------- Login popup ------- */
+document.getElementById('closeLoginModal').addEventListener('click', switchView)
 
+document.getElementById('submitLoginModal').addEventListener('click', function() {
+    // Get input value
+    const name = document.getElementById('login-name').value
+    // Log in
+    login(name)
+})
 
 /* ------- Helper Functions ------- */
 
 function switchView(event) {
+    // Get the new view target
+    const target = event.target.href || '#home'
     // Get the id of the new view
-    const id = event.target.href.slice(event.target.href.lastIndexOf('#') + 1)
+    const id = target.slice(target.lastIndexOf('#') + 1)
     // Get the view element
     const view = document.getElementById(id)
     // Do nothing if new view is currently active
@@ -48,4 +62,25 @@ function switchView(event) {
     const viewNav = document.getElementById(`${id}-button`)
     // Make the new view nav active
     viewNav.classList.add('active')
+}
+
+function login(name) {
+    // Connect to google sheets
+
+    // Get profile from google sheets
+    console.log(document.getElementById('dungeon-entrance-trap'))
+    // Parse profile
+    profile = {
+        dungeon: [
+            { trap: 'trap0' },
+            { monster: 'monster1' },
+            { monster: 'monster2' },
+            { boss: 'boss3' },
+        ]
+    }
+    // Update dungeon page
+    document.getElementById('dungeon-entrance-trap').innerHTML = profile.dungeon[0].trap
+    document.getElementById('dungeon-floor1-monster').innerHTML = profile.dungeon[1].monster
+    document.getElementById('dungeon-floor2-monster').innerHTML = profile.dungeon[2].monster
+    document.getElementById('dungeon-boss-boss').innerHTML = profile.dungeon[3].boss
 }

@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#dungeon" id="dungeon-button">My Dungeon</a>
+                            <a class="nav-link" href="#dungeon" id="dungeon-button" data-bs-toggle="modal" data-bs-target="#loginModal">My Dungeon</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#adventurers" id="adventurers-button">Adventurer Draft</a>
@@ -47,6 +47,24 @@
             </div>
         </nav>
 
+        <!-- Login modal -->
+        <div class="modal fade bg-dark bg-gradient" id="loginModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Please enter your name below</h5>
+                </div>
+                <div class="modal-body">
+                    <input class="w-100" type="text" id="login-name" name="login-name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="submitLoginModal">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeLoginModal">Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
         <!-- Pages -->
         <div class="d-flex h-100 text-center text-bg-light text-light bg-dark">
 
@@ -54,10 +72,10 @@
             <div class="cover-container d-flex justify-content-center w-100 h-90 p-3 mx-auto flex-column active-view page" id="home">
                 <div class="container d-flex flex-row w-100 justify-content-center">
                     <main class="container px-3" id="home-text">
-                        <h1>Welcome to Dungeon Draft!</h1>
+                        <h1 id="home-heading">Welcome to Dungeon Draft!</h1>
                         <p class="lead">Your destination for competitive D&D 5e dungeon building! You can jump right in or check out the rules below!</p>
                         <p class="lead">
-                            <a href="#dungeon" class="btn btn-lg btn-secondary fw-bold border-white bg-dark" id="get-started-btn">Get started</a>
+                            <a href="#dungeon" class="btn btn-lg btn-secondary fw-bold border-white bg-dark" id="get-started-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Get started</a>
                             <a href="#rules" class="btn btn-lg btn-secondary fw-bold border-white bg-dark" id="rules-btn">Rules Page</a>
                         </p>
                     </main>
@@ -71,9 +89,9 @@
                     <img class="card-img-top" src="assets/dungeon_entrance_bg.jpg" alt="Entrance">
                     <div class="card-img-overlay text-light d-flex justify-content-center flex-column">
                       <h5 class="card-title">Entrance</h5>
-                      <p class="card-text">Trap name here</p>
+                      <p class="card-text" id="dungeon-entrance-trap">Trap name here</p>
                       <p>
-                        <a href="#traps" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">See details</a>
+                        <a href="#traps" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark disabled">See details</a>
                         <a href="#traps" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">Trap draft</a>
                       </p>
                     </div>
@@ -83,7 +101,7 @@
                     <img class="card-img-top" src="assets/home_dungeon_bg.jpg" alt="Floor 1">
                     <div class="card-img-overlay text-light d-flex justify-content-center flex-column">
                       <h5 class="card-title">Floor 1</h5>
-                      <p class="card-text">Monster name here</p>
+                      <p class="card-text" id="dungeon-floor1-monster">Monster name here</p>
                       <p>
                         <a href="#monsters" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">See details</a>
                         <a href="#monsters" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">Monster draft</a>
@@ -95,7 +113,7 @@
                     <img class="card-img-top" src="assets/home_dungeon_bg.jpg" alt="Floor 2">
                     <div class="card-img-overlay text-light d-flex justify-content-center flex-column">
                       <h5 class="card-title">Floor 2</h5>
-                      <p class="card-text">Monster name here</p>
+                      <p class="card-text" id="dungeon-floor2-monster">Monster name here</p>
                       <p>
                         <a href="#monsters" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">See details</a>
                         <a href="#monsters" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">Monster draft</a>
@@ -107,7 +125,7 @@
                     <img class="card-img-top" src="assets/dungeon_boss_bg.jpg" alt="Boss">
                     <div class="card-img-overlay text-light d-flex justify-content-center flex-column">
                       <h5 class="card-title">Boss Floor</h5>
-                      <p class="card-text">Monster name here</p>
+                      <p class="card-text" id="dungeon-boss-boss">Monster name here</p>
                       <p>
                         <a href="#boss" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">See details</a>
                         <a href="#boss" class="card-link btn btn-sm btn-secondary fw-bold border-white bg-dark">Boss draft</a>
