@@ -4,7 +4,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { GoogleSpreadsheet } = require('google-spreadsheet')
 const { JWT } = require('google-auth-library')
-const config = require('./config.json')
+const fs = require('fs')
+const config = fs.existsSync('./config.json') ? require('./config.json') : {}
 
 const app = express()
 
