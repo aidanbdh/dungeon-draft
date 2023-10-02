@@ -20,7 +20,7 @@ app.get('/', (_, res) => {
 // Route to get a user's profile information from google sheets
 app.get('/login', async (req, res) => {
     // Name to retrieve from google sheets
-    const name = req.query.name
+    const name = req.query.name.trim().toLowerCase()
     // Authenticate with google sheets
     const serviceAccountAuth = new JWT({
         email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || config.google.email,
@@ -38,7 +38,7 @@ app.get('/login', async (req, res) => {
     // Load the rows from the dungeon sheet
     const dungeons = await dungeonSheet.getRows()
     // Find the dungeon from the name
-    const profile = dungeons.find(el => el.get('Player') === name)
+    const profile = dungeons.find(el => el.get('Player').trim().toLowerCase() === name)
     // Error out if no profile found
     if(!profile)
         return res.sendStatus(404)
