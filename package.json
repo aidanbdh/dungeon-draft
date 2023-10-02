@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/aidanbdh/dungeon-draft/issues"
   },
-  "homepage": "https://github.com/aidanbdh/dungeon-draft#readme"
+  "homepage": "https://github.com/aidanbdh/dungeon-draft#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.2"
+  }
 }

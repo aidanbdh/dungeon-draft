@@ -25,11 +25,12 @@ for(const el of cardLinks) {
 /* ------- Login popup ------- */
 document.getElementById('closeLoginModal').addEventListener('click', switchView)
 
-document.getElementById('submitLoginModal').addEventListener('click', function() {
+document.getElementById('submitLoginModal').addEventListener('click', async function() {
     // Get input value
     const name = document.getElementById('login-name').value
     // Log in
-    login(name)
+    console.log('logging in...')
+    await login(name)
 })
 
 /* ------- Helper Functions ------- */
@@ -64,23 +65,23 @@ function switchView(event) {
     viewNav.classList.add('active')
 }
 
-function login(name) {
-    // Connect to google sheets
-
-    // Get profile from google sheets
-    console.log(document.getElementById('dungeon-entrance-trap'))
-    // Parse profile
-    profile = {
-        dungeon: [
-            { trap: 'trap0' },
-            { monster: 'monster1' },
-            { monster: 'monster2' },
-            { boss: 'boss3' },
-        ]
-    }
+async function login(name) {
+    // Get the profile from the server
+    const rawData = await fetch(`/login?name=${name}`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json'
+        },
+        method: 'GET'
+    })
+    const profile = await rawData.json()
     // Update dungeon page
     document.getElementById('dungeon-entrance-trap').innerHTML = profile.dungeon[0].trap
+    document.getElementById('dungeon-entrance-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[0].trap}`
     document.getElementById('dungeon-floor1-monster').innerHTML = profile.dungeon[1].monster
+    document.getElementById('dungeon-floor1-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[1].monster.replace(/ /g,"-")}`
     document.getElementById('dungeon-floor2-monster').innerHTML = profile.dungeon[2].monster
+    document.getElementById('dungeon-floor2-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[2].monster.replace(/ /g,"-")}`
     document.getElementById('dungeon-boss-boss').innerHTML = profile.dungeon[3].boss
+    document.getElementById('dungeon-boss-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[3].boss.replace(/ /g,"-")}`
 }
