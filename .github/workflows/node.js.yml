@@ -27,7 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
       env:
-        GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ variables.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+        GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
         GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
     - run: npm ci
     - run: npm run build --if-present
