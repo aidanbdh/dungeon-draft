@@ -53,3 +53,29 @@ div .hidden {
 #dungeon-entrance-image-credit {
     font-size: small;
 }
+
+.draft {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.draft-table {
+    text-align: left;
+    font-weight: bold;
+}
+
+.draft-table .col {
+    height: 31px;
+}
+
+.draft-table button{
+    height: 24px;
+    padding-top: 0px;
+    position: relative;
+    right: 9px;
+    font-weight: bold;
+}
+
+.draft-table-heading {
+    background-color: gray;
+}
