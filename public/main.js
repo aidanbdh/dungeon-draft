@@ -170,8 +170,8 @@ function updateButtons() {
     // Update disabled buttons
     const notWorking = document.getElementsByClassName('not-working')
     for(const el of notWorking) {
-        el.addEventListener('click', function() {
+        el.onclick = function() {
             alert('Congrats! You found a button that doesn\'t work yet!')
-        })
+        }
     }
 }
