@@ -33,6 +33,13 @@ document.getElementById('submitLoginModal').addEventListener('click', async func
     await login(name)
 })
 
+/* ------- Draft pages ------- */
+
+renderDraft('adventurers')
+renderDraft('traps')
+renderDraft('monsters')
+renderDraft('bosses')
+
 /* ------- Helper Functions ------- */
 
 function switchView(event) {
@@ -84,4 +91,87 @@ async function login(name) {
     document.getElementById('dungeon-floor2-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[2].monster.replace(/ /g,"-")}`
     document.getElementById('dungeon-boss-boss').innerHTML = profile.dungeon[3].boss
     document.getElementById('dungeon-boss-details').href = `https://www.dndbeyond.com/monsters/${profile.dungeon[3].boss.replace(/ /g,"-")}`
+}
+
+// Variable for holding table formats
+const formats = {
+    adventurers: [3, 1, 1, 4, 3],
+    traps: [2, 2, 2, 2, 1, 3],
+    monsters: [2, 3, 1, 1, 2, 3],
+    bosses: [3, 4, 1, 4]
+}
+
+async function renderDraft(type) {
+    // Get the draft info from the server
+    const rawData = await fetch(`/draft?type=${type}`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json'
+        },
+        method: 'GET'
+    })
+    const parsedData = await rawData.json()
+    // Array to hold draft tables to render
+    const tables = []
+    // Format each table
+    Object.keys(parsedData).forEach((key, day) => {
+        // Access data for date
+        const data = parsedData[key]
+        // Add the table html to the list of tables
+        let tableContent = `
+        <div class="draft">
+            <h4 class="draft-date">${key}</h4>
+            <div class="row text-light draft-table draft-table-heading">`
+        formats[type].forEach((width, i) => {
+            tableContent +=` <div class="col-${width} border-dark border">${data[0][i]}</div>`
+        })
+        tableContent += '</div>'
+        // Process the data
+        data.forEach((el, i) => {
+            // Skip the header element
+            if(i == 0)
+                return
+            tableContent += `<div class="row text-dark bg-light draft-table">`
+            // Add a button if it is today's pick and has not been picked
+            if (day === 0 && !el[0])
+                tableContent += `
+                <div class="col-${formats[type][0]} border-dark border">
+                    <button class="btn btn-light text-dark btn-sm not-working" type="button" >
+                        Choose
+                    </button>
+                </div>`
+            else
+                tableContent += 
+                    `<div class="col-${formats[type][0]} border-dark border">${el[0]}</div>`
+            // Add each element to the table
+            el.forEach((line, i) => {
+                if (i == 0)
+                    return
+                tableContent += `<div class="col-${formats[type][i]} border-dark border">${line}</div>`
+            })
+            // End div
+            tableContent += '</div>'
+        })
+        // End div
+        tableContent += `</div>`
+        // Add the table to the list of tables
+        tables.push(tableContent)
+    })
+    // Find the parent element
+    const parent = document.getElementById(type)
+    // Add each table to the parent element 
+    tables.forEach(table => {
+        parent.innerHTML += table
+    })
+    updateButtons()
+}
+
+function updateButtons() {
+    // Update disabled buttons
+    const notWorking = document.getElementsByClassName('not-working')
+    for(const el of notWorking) {
+        el.addEventListener('click', function() {
+            alert('Congrats! You found a button that doesn\'t work yet!')
+        })
+    }
 }
