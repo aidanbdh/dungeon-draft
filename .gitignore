@@ -1,6 +1,9 @@
 #sensitive congfigs
 config.json
 
+# test file
+ping.js
+
 # Logs
 logs
 *.log
