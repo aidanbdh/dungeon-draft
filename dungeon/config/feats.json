@@ -1,0 +1,31 @@
+{
+    "Savage Attacker": {
+        "type": "origin",
+        "event": "Savage Attacker"
+    },
+    "Tough": {
+        "type": "origin",
+        "hp": "x2"
+    },
+    "Ability Score Improvement": {
+        "type": "general",
+        "score": "str|dex|con|wis|int|cha",
+        "score2": "str|dex|con|wis|int|cha"
+    },
+    "Great Weapon Fighting": {
+        "type": "general",
+        "score": "str"
+    },
+    "Great Weapon Master": {
+        "type": "general",
+        "score": "str"
+    },
+    "Slasher": {
+        "type": "general",
+        "score": "str"
+    },
+    "Heavy Armor Master": {
+        "type": "general",
+        "score": "str"
+    }
+}

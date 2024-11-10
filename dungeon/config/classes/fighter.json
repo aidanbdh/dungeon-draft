@@ -1,0 +1,45 @@
+{
+    "hitDie": 10,
+    "abilities": {
+        "savingThrow": {
+            "proficiency": ["strSave", "conSave"]
+        },
+        "skill": {
+            "proficiency": ["any"]
+        }
+    },
+    "archetypes": {
+        "warrior": {
+            "scores": ["str", "con", "dex", "wis", "int", "cha"],
+            "feats": ["Great Weapon Fighting", "Great Weapon Master", "Slasher", "Heavy Armor Master", "Tough", "Savage Attacker"],
+            "skills": ["Athletics", "Intimidation", "Perception", "Insight", "Stealth", "Investigation"],
+            "subclass": "Champion"
+        }
+    },
+    "level": [
+        {
+            "action": ["Second Wind"],
+            "abilities": {
+                "feat": ["fightingStyle"],
+                "weaponMastery": ["Simple", "Martial"]
+            }
+        },
+        {
+            "abilities": {
+                "event": ["Action Surge", "Tactical Mind"]
+            }
+        },
+        {
+            "subclassFeature": {
+                "Champion": {
+                    "abilities": {
+                        "event": ["Improved Critical", "Remarkable Athlete"],
+                        "skill": {
+                            "advantage": ["Initiative", "Athletics"]
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

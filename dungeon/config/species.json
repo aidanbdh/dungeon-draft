@@ -1,0 +1,13 @@
+{
+    "human": {
+        "size": "m",
+        "speed": 30,
+        "abilities": {
+            "inspiration": true,
+            "skill": {
+                "proficiency" : ["any"]
+            },
+            "feat": ["origin"]
+        }
+    }
+}

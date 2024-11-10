@@ -1,0 +1,13 @@
+{
+    "soldier": {
+        "abilities": {
+            "feat": ["Savage Attacker"],
+            "skill": {
+                "proficiency": ["Athletics", "Intimidation"]
+            },
+            "score": {
+                "increase": ["str|dex|con", "str|dex|con", "str|dex|con"]
+            }
+        }
+    }
+}
