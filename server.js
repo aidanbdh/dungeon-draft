@@ -7,9 +7,9 @@ import { JWT } from 'google-auth-library'
 import fs from 'fs'
 import path from 'path';
 import { fileURLToPath } from 'url';
-import config from './config.json' with { type: 'json' }
-if (!fs.existsSync('./config.json'))
-    config = {}
+const config = fs.existsSync('./config.json')
+    ? JSON.parse(fs.readFileSync('./config.json'))
+    : {}
 
 const app = express()
 
