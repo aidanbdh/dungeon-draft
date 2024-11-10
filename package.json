@@ -2,11 +2,12 @@
   "name": "dungeon-draft",
   "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "watch": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "test": "mocha ./dungeon/tests"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,9 @@
     "google-auth-library": "^8.9.0",
     "google-spreadsheet": "^4.1.0",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^10.8.2"
   }
 }
