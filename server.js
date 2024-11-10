@@ -1,14 +1,20 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const { GoogleSpreadsheet } = require('google-spreadsheet')
-const { JWT } = require('google-auth-library')
-const fs = require('fs')
-const config = fs.existsSync('./config.json') ? require('./config.json') : {}
+import express from 'express'
+import bodyParser from 'body-parser'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
+import { JWT } from 'google-auth-library'
+import fs from 'fs'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import config from './config.json' with { type: 'json' }
+if (!fs.existsSync('./config.json'))
+    config = {}
 
 const app = express()
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 
