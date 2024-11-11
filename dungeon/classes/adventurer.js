@@ -24,6 +24,8 @@ class Adventurer extends Creature {
         this.scores = []
         this.level = 0
         this.inspiration = false
+        // Randomize Alignment
+        this.alignment = this.randomAlignment()
         // Get species info from config file
         species = speciesConfig[species]
         // Throw an error if invalid species
@@ -303,6 +305,10 @@ class Adventurer extends Creature {
             this.maxHp += roll(hitDie, level, con * level)
         // "Heal" to full
         this.hp = this.maxHp
+    }
+
+    randomAlignment() {
+        return `${Math.random() >= 0.5 ? "Chaotic" : "Lawful"} ${Math.random() >= 0.5 ? "Evil" : "Good"}`
     }
 }
 
