@@ -1,0 +1,40 @@
+{
+    "Chain Mail": {
+        "type": "Armor",
+        "AC": 16,
+        "dexBonus": 0,
+        "requirements": {
+            "str": 13
+        }
+    },
+    "Studded Leather": {
+        "type": "Armor",
+        "AC": 12,
+        "dexBonus": 10
+    },
+    "Greatsword": {
+        "type": "Weapon",
+        "damage": "2D6 S",
+        "mastery": "Graze",
+        "properties": ["Heavy", "Two-Handed"]
+    },
+    "Flail": {
+        "type": "Weapon",
+        "damage": "1D8 B",
+        "mastery": "Sap",
+        "properties": []
+    },
+    "Scimitar": {
+        "type": "Weapon",
+        "damage": "1D6 S",
+        "mastery": "Nick",
+        "properties": ["Finesse", "Light"]
+    },
+    "Longbow": {
+        "type": "Weapon",
+        "damage": "1D8 P",
+        "mastery": "Slow",
+        "properties": ["Heavy", "Two-Handed"],
+        "range": [150, 600]
+    }
+}

@@ -7,8 +7,13 @@ export default class Creature {
         this.hp = 0
         this.maxHp = 0
         this.tempHp = 0
+        this.speed = 30
+        this.equipment = []
         // Data structure for Actions
-        this.actions = ['dodge']
+        this.actions = ['dodge', 'disengage']
+        this.Action = 1
+        this["Bonus Action"] = 1
+        this.Reaction = 1
         this.proficiencies = []
         this.proficiencyBonus = 0
         this.initiative = 0

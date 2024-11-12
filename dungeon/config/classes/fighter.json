@@ -1,4 +1,5 @@
 {
+    "name": "fighter",
     "hitDie": 10,
     "abilities": {
         "savingThrow": {
@@ -13,16 +14,27 @@
             "scores": ["str", "con", "dex", "wis", "int", "cha"],
             "feats": ["Great Weapon Fighting", "Great Weapon Master", "Slasher", "Heavy Armor Master", "Tough", "Savage Attacker"],
             "skills": ["Athletics", "Intimidation", "Perception", "Insight", "Stealth", "Investigation"],
-            "subclass": "Champion"
+            "subclass": "Champion",
+            "actions": { "Attack-Greatsword": 5 },
+            "equipment": 0
         }
     },
+    "equipment": [
+        ["Chain Mail", "Greatsword"],
+        ["Chain Mail", "Flail"],
+        ["Studded Leather", "Scimitar"],
+        ["Studded Leather", "Longbow"]
+    ],
     "level": [
         {
             "action": ["Second Wind"],
             "abilities": {
                 "feat": ["fightingStyle"],
                 "weaponMastery": ["Simple", "Martial"]
-            }
+            },
+            "resources": {
+                "secondWindUses": 2
+            } 
         },
         {
             "abilities": {
