@@ -6,7 +6,8 @@ import Creature from "./creature.js"
 import speciesConfig from "../config/species.json" with { type: 'json' }
 import backgroundConfig from "../config/backgrounds.json" with { type: 'json' }
 import featsConfig from "../config/feats.json" with { type: 'json' }
-import generalActionsConfig from "../config/actions/general.js"
+import equipmentConfig from "../config/equipment.json" with { type: 'json' }
+import { Action } from "../classes/action.js"
 import eventsConfig from "../config/events.json" with { type: 'json' }
 
 
@@ -58,8 +59,12 @@ class Adventurer extends Creature {
 
         // *** Abilities done prior to below steps ***
 
-        // Apply actions *** Issue-25 ***
-        this.applyActions()
+        // Add equipment and actions based on equipment
+        this.applyEquipment(type, archetype)
+        // Set movement available based on speed
+        this.movement = this.speed
+        // Apply actions
+        this.applyActions(type, archetype)
         // Apply events *** Issue-26 ***
         this.applyEvents()
         // Set hp
@@ -231,6 +236,10 @@ class Adventurer extends Creature {
             // Add feats or ability increases
             if (level[i].abilityIncrease)
                 this.feats.push('any')
+            // Add custom resources
+            if (level[i].resources)
+                for (key in level[i].resources)
+                    this[key] = level[i].resources[key]
         }
         // Get proficiency bonus
         this.proficiencyBonus = 2
@@ -286,14 +295,48 @@ class Adventurer extends Creature {
         delete this.feats
     }
 
+    applyEquipment(type, archetype) {
+        // Get the equipment loadout from archetype
+        const equipments = type.equipment[archetype.equipment]
+        // Handle each piece of equipment
+        for (let i = 0; i < equipments.length; i++) {
+            // Get equipment details from config
+            const equipment = equipmentConfig[equipments[i]]
+            equipment.name = equipments[i]
+            // Add equipment to adventurer
+            this.equipment[i] = equipment
+            // Handle armor
+            if (equipment.type === 'Armor') {
+                this.ac = equipment.AC || equipment.ac
+                // Give Dex bonus up to max
+                if (this.dex.mod > 0)
+                    this.ac += this.dex.mod > equipment.dexBonus ? equipment.dexBonus : this.dex.mod
+            } else if (equipment.type === 'Weapon') { // Handle weapons
+                // Register a new action based on the weapon properties
+                this.actions.push(`Attack-${equipments[i]}`)
+            }
+        }
+    }
+
+    applyActions(type, archetype) {
+        // The new action format object
+        const obj = {}
+        // This function should look up each possible action for the adventurer to take and format it based on priority.
+        for (let i = 0; i < this.actions.length; i++) {
+            // Create the action object based on action name, class and archetype.
+            const action = new Action(this.actions[i], type.name, archetype, this.equipment, this)
+            // Handle reactions and passive abilities as events
+            if (action.trigger)
+                this.events.push(action)
+            else // Add to or create an entry for actions at the priority level
+                obj[action.priority] ? obj[action.priority].push(action) : obj[action.priority] = [action]
+        }
+        this.actions = obj
+    }
+
     applyEvents() {
         // This function should look up each possible event and format it based on trigger
         // Issue-26
-    }
-
-    applyActions() {
-        // This function should look up each possible action for the adventurer to take and format it based on priority.
-        // Issue-25
     }
 
     initializeHp(hitDie, level, con) {
