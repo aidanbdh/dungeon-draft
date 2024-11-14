@@ -30,11 +30,24 @@
         "mastery": "Nick",
         "properties": ["Finesse", "Light"]
     },
+    "Shortsword": {
+        "type": "Weapon",
+        "damage": "1D6 P",
+        "mastery": "Vex",
+        "properties": ["Finesse", "Light"]
+    },
     "Longbow": {
         "type": "Weapon",
         "damage": "1D8 P",
         "mastery": "Slow",
         "properties": ["Heavy", "Two-Handed"],
         "range": [150, 600]
+    },
+    "Shortbow": {
+        "type": "Weapon",
+        "damage": "1D6 P",
+        "mastery": "Vex",
+        "properties": ["Two-Handed"],
+        "range": [80, 320]
     }
 }
