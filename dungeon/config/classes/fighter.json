@@ -3,7 +3,7 @@
     "hitDie": 10,
     "abilities": {
         "savingThrow": {
-            "proficiency": ["strSave", "conSave"]
+            "proficiency": ["str", "con"]
         },
         "skill": {
             "proficiency": ["any"]

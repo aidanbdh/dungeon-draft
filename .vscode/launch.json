@@ -21,6 +21,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\dungeon/tests/adventurer.test.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Test Monster Constructor",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\dungeon/tests/monster.test.js"
         }
     ]
 }

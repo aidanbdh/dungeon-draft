@@ -122,6 +122,7 @@ class Adventurer extends Creature {
         while (stats.length > 0) {
             const stat = stats.shift()
             this[stat].mod = getMod(this[stat].score)
+            this[stat].save = this[stat].mod
         }
         // Remove empty scores array
         delete this.scores
@@ -173,8 +174,11 @@ class Adventurer extends Creature {
                     this.proficiencies[i] = list.join('|')
                 }
             }
-            // Increase the selected skill
-            this.skills[this.proficiencies[i]].mod += this.proficiencyBonus
+            // Check for saving throw proficiency
+            if (this.proficiencies[i].indexOf('-save') !== -1)
+                this[this.proficiencies[i].slice(0, 3)].save += this.proficiencyBonus
+            else // Increase if skill
+                this.skills[this.proficiencies[i]].mod += this.proficiencyBonus
             // Remove the skill from archetype skills list
             if (skills.indexOf(this.proficiencies[i]) !== -1)
                 skills.splice(skills.indexOf(this.proficiencies[i]), 1)
@@ -210,7 +214,7 @@ class Adventurer extends Creature {
         // Saving throw proficiencies
         if (abilities.savingThrow)
             if (abilities.savingThrow.proficiency)
-                this.proficiencies.push(...abilities.savingThrow.proficiency)
+                this.proficiencies.push(...(abilities.savingThrow.proficiency.map(score => `${score}-save`)))
         // Event abilities
         if (abilities.event)
             this.events.push(...abilities.event)
@@ -219,7 +223,9 @@ class Adventurer extends Creature {
             this.inspiration = true
     }
 
-    applyLevels({ level }, lv, { subclass }) {
+    applyLevels({ level, abilities }, lv, { subclass }) {
+        // Apply base abilities
+        this.applyAbilities(abilities)
         // Apply all level ups in order
         for (let i = 1; i < lv; i++) {
             // Check for subclass ability improvements
