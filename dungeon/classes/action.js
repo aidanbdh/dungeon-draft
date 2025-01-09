@@ -15,6 +15,17 @@ const actions = {
 
 class Action {
 
+    /*
+        name
+        priority
+        trigger
+        cost
+        condition
+        range
+        target
+        func
+    */
+
     constructor(actionName, type, archetype = {}, equipment, creature) {
         // Find the action based on class then general
         let action = actions[type][actionName] || actions.general[actionName] || actionName
