@@ -104,9 +104,9 @@ export default class Creature {
         }
     }
 
-    this.rollInitiative = function(surprised = false) {
+    rollInitiative(surprised = false) {
         // Roll a d20 and add dex
-        this.initiative = roll(1, 20, this.initiativeBonus || this.dex.mod)
+        this.initiative = roll(20, 1, this.initiativeBonus || this.dex.mod)
         // Check for surprised (disadvantage)
         if (surprised) {
             // Roll again

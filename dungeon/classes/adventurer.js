@@ -131,7 +131,6 @@ class Adventurer extends Creature {
         for (let skill in this.skills) {
             this.skills[skill].mod = this[this.skills[skill].ability].mod
         }
-        this.Initiative = this.dex.mod
         // Sort proficiencies by most specific to least specific
         this.proficiencies = this.proficiencies.sort((a, b) =>  {
             // Check for any value

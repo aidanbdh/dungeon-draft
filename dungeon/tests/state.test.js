@@ -12,4 +12,9 @@ const samSkeleton = new Monster('Skeleton')
 
 const state = new State([dylan], [rodZombie, samSkeleton])
 
+// Test initiative correctness
+const correctInitiative = [dylan, rodZombie, samSkeleton].sort((a, b) => a.initiative - b.initiative)
+if (state.initiative[0] !== correctInitiative[0] || state.initiative[1] !== correctInitiative[1] || state.initiative[2] !== correctInitiative[2])
+    console.log(`Incorrect initiative`)
+
 console.log('Done testing state.')
