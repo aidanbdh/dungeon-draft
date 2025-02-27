@@ -25,6 +25,7 @@ class Adventurer extends Creature {
         this.scores = []
         this.level = 0
         this.inspiration = false
+        this.name = ["David", "Hulk of House Hogan", "Steve", "Brandt the Slandt", "Carl the Wheezer"][Math.floor(Math.random() * 5)]
         // Randomize Alignment
         this.alignment = this.randomAlignment()
         // Get species info from config file
@@ -66,7 +67,7 @@ class Adventurer extends Creature {
         // Apply actions
         this.applyActions(type, archetype)
         // Apply events *** Issue-26 ***
-        this.applyEvents()
+        this.applyEvents(type, archetype)
         // Set hp
         this.initializeHp(type.hitDie, level, this.con.mod)
 
@@ -340,9 +341,20 @@ class Adventurer extends Creature {
         this.actions = obj
     }
 
-    applyEvents() {
-        // This function should look up each possible event and format it based on trigger
-        // Issue-26
+    // This organizes events (actions) by trigger and priority
+    applyEvents(type, archetype) {
+    //     // The new events format object
+    //     const obj = {}
+    //     // This function should look up each possible action for the adventurer to take and format it based on priority.
+    //     for (let i = 0; i < this.events.length; i++) {
+    //         // Create the action object based on action name, class and archetype.
+    //         const event = new Action(this.events[i], type.name, archetype, this.equipment, this)
+    //         // Initialize trigger if needed
+    //         obj[event.trigger] ? null : obj[event.trigger] = []
+    //         // Add to or create an entry for events at the trigger and priority level
+    //         obj[event.trigger][event.priority] ? obj[event.trigger][event.priority].push(event) : obj[event.trigger][event.priority] = [event]
+    //     }
+    //     this.events = obj
     }
 
     initializeHp(hitDie, level, con) {

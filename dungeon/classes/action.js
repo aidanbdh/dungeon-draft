@@ -6,11 +6,14 @@ import { actions as generalActions } from '../config/actions/general.js'
 import { actions as fighterActions } from '../config/actions/fighter.js'
 // Get monster options for actions
 import { actions as monsterActions } from '../config/actions/monster.js'
+// Get adventurer options for actions
+import { actions as adventurerActions } from '../config/actions/adventurer.js'
 
 const actions = {
     general: generalActions,
     fighter: fighterActions,
-    monster: monsterActions
+    monster: monsterActions,
+    adventurer: adventurerActions
 }
 
 class Action {
@@ -28,9 +31,9 @@ class Action {
 
     constructor(actionName, type, archetype = {}, equipment, creature) {
         // Find the action based on class then general
-        let action = actions[type][actionName] || actions.general[actionName] || actionName
+        let action = actions[type][actionName] || actions.adventurer[actionName] || actions.general[actionName] || actionName
         // Handle attack actions
-        if (actionName.indexOf('Attack') !== -1) {
+        if (actionName.indexOf('Attack-') !== -1) {
             // Create a copy of the generic action
             action = JSON.parse(JSON.stringify(actions.general.attack))
             // Find the right equipment
@@ -38,7 +41,7 @@ class Action {
                 return name === actionName.slice(actionName.indexOf('-') + 1)
             })[0]
 
-            action.range = equipment.range || 0
+            action.range = equipment.range || 5
             // Figure out what ability to use for damage
             equipment.ability = equipment.range ? 'dex' : equipment.properties.indexOf('Finesse') === -1 ? 'str' : creature.str.score >= creature.dex.score ? 'str' : 'dex'
             // Construct the attack function
