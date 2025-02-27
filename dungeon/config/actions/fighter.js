@@ -9,18 +9,19 @@ const actions = {
         cost: ['Bonus Action', 'secondWindUses'],
         range: 0,
         target: 'self',
-        func: function(creature, _, __) {
+        func: function(creature, _, __, log) {
             creature.hp += roll(10, 1, creature.level)
+            log.push('Second Wind')
         }
     },
     "Action Surge": {
-        priority: 2,
-        trigger: 'attack',
+        priority: 3,
         cost: ['actionSurgeUses'],
         range: 0,
         target: 'self',
-        func: function(creature, _, __) {
+        func: function(creature, _, __, log) {
             creature.Action += 1
+            log.push('Action Surge')
         }
     },
     "Tactical Mind": {
@@ -29,8 +30,9 @@ const actions = {
         range: 0,
         cost: ['secondWindUses'],
         target: 'self',
-        func: function(_, __, event) {
+        func: function(_, __, state, log) {
             // Reroll and add 10 to the check
+            log.push('Tactical Mind')
         }
     }
 }

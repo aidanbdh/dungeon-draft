@@ -1,5 +1,7 @@
 'use strict'
 
+import { roll } from "../helper.js"
+
 // Generic creature
 export default class Creature {
     constructor() {
@@ -17,6 +19,7 @@ export default class Creature {
         this.proficiencies = []
         this.proficiencyBonus = 0
         this.initiative = 0
+        this.initiativeBonus = 0
         this.dead = false
         this.str = {}
         this.dex = {}
@@ -98,6 +101,19 @@ export default class Creature {
                 mod: 0,
                 ability: "cha"
             }
+        }
+    }
+
+    rollInitiative(surprised = false) {
+        // Roll a d20 and add dex
+        this.initiative = roll(20, 1, this.initiativeBonus || this.dex.mod)
+        // Check for surprised (disadvantage)
+        if (surprised) {
+            // Roll again
+            const num = roll(1, 20, this.initiativeBonus || this.dex.mod)
+            // Keep the lower initative roll
+            if (num < this.initative)
+                this.initative = num
         }
     }
 }

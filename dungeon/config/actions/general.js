@@ -30,9 +30,10 @@ const actions = {
 
             const mod = creature[weapon.ability].mod
 
-            return function(_, target, state) {
+            return function(creature, target, state, log) {
                 // Roll for damage
                 let damage = roll(die, mult, mod)
+                return log.push(`${creature.name}'s Attack dealt ${damage} ${damageType} damage`)
                 // Modify damage
                 if (target.immunity === 'any' || target.immunity.indexOf(damageType) !== -1)
                     damage = 0
@@ -51,8 +52,9 @@ const actions = {
         cost: ['Action'],
         range: 0,
         target: 'self',
-        func: function(creature, _, __) {
+        func: function(creature, _, __, log) {
             creature.dodge = true
+            log.push('Dodge')
         }
     },
     disengage: {
@@ -61,8 +63,9 @@ const actions = {
         cost: ['Action'],
         range: 0,
         target: 'self',
-        func: function(creature, _, __) {
+        func: function(creature, _, __, log) {
             creature.disengage = true
+            log.push('Disengage')
         }
     }
 }
