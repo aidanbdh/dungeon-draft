@@ -6,4 +6,4 @@ const dodZombie = new Monster('Zombie')
 
 const sodSkeleton = new Monster('Skeleton')
 
-console.log('Done!')
+console.log('Done testing monsters')

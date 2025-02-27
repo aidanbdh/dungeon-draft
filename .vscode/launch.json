@@ -30,6 +30,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\dungeon/tests/monster.test.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Test State Constructor",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\dungeon/tests/state.test.js"
         }
     ]
 }
