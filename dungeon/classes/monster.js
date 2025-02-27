@@ -23,6 +23,7 @@ class Monster extends Creature {
         // Error if unknown monster
         if (!monster)
             throw new Error(`Unknown creature ${name}`)
+        this.name = name
         // Apply stats from config
         this.size = monster.size
         this.species = monster.species
