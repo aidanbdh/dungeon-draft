@@ -5,7 +5,7 @@
     },
     "Tough": {
         "type": "origin",
-        "hp": "x2"
+        "hp": "2"
     },
     "Ability Score Improvement": {
         "type": "general",
@@ -13,8 +13,9 @@
         "score2": "str|dex|con|wis|int|cha"
     },
     "Great Weapon Fighting": {
-        "type": "general",
-        "score": "str"
+        "type": "fightingStyle",
+        "score": "str",
+        "event": "Great Weapon Fighting"
     },
     "Great Weapon Master": {
         "type": "general",

@@ -33,7 +33,7 @@ const actions = {
             return function(creature, target, state, log) {
                 // Roll for damage
                 let damage = roll(die, mult, mod)
-                return log.push(`${creature.name}'s Attack dealt ${damage} ${damageType} damage`)
+                return log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage`)
                 // Modify damage
                 if (target.immunity === 'any' || target.immunity.indexOf(damageType) !== -1)
                     damage = 0
@@ -59,7 +59,7 @@ const actions = {
     },
     disengage: {
         priority: 0,
-        condition: ['movement'],
+        condition: ['todo'],
         cost: ['Action'],
         range: 0,
         target: 'self',

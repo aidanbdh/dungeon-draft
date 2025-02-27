@@ -5,13 +5,14 @@ import { roll } from "../../helper.js"
 const actions = {
     "Second Wind": {
         priority: 2,
-        condition: ['bloody'],
+        condition: ['bloodied'],
         cost: ['Bonus Action', 'secondWindUses'],
         range: 0,
         target: 'self',
         func: function(creature, _, __, log) {
-            creature.hp += roll(10, 1, creature.level)
-            log.push('Second Wind')
+            const healing = roll(10, 1, creature.level)
+            creature.hp += healing
+            log.push(`Used Second Wind to regain ${healing} hp.`)
         }
     },
     "Action Surge": {

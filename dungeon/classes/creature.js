@@ -6,7 +6,7 @@ import { roll } from "../helper.js"
 export default class Creature {
     constructor() {
         // Default options
-        this.hp = 0
+        this.hitPoints = 0
         this.maxHp = 0
         this.tempHp = 0
         this.speed = 30
@@ -102,6 +102,25 @@ export default class Creature {
                 ability: "cha"
             }
         }
+    }
+
+    
+    // Protected values
+    set hp(hp) {
+        // Check for death
+        if (hp < 0) {
+            if (hp * -1 >= this.maxHp)
+                this.dead = true
+            this.hp = 0
+        } else {
+            if (hp > this.maxHp)
+                this.hp = this.maxHp
+            this.hitPoints = hp
+        }
+    }
+
+    get hp() { 
+        return this.hitPoints 
     }
 
     rollInitiative(surprised = false) {

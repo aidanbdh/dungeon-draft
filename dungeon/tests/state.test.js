@@ -15,10 +15,13 @@ const state = new State([dylan], [rodZombie, samSkeleton])
 // Test initiative correctness
 const correctInitiative = [dylan, rodZombie, samSkeleton].sort((a, b) => b.initiative - a.initiative)
 if (state.initiative[0] !== correctInitiative[0] || state.initiative[1] !== correctInitiative[1] || state.initiative[2] !== correctInitiative[2])
-    console.log(`Incorrect initiative`)
+    console.log(`Potentially incorrect initiative. Check for ties.`)
 
 // Take one turn
 state.turn()
+
+// Manually set dylan's hp to 1
+dylan.hp = 1
 
 // Take another turn
 state.turn()

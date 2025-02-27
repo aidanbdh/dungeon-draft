@@ -23,7 +23,7 @@ class Adventurer extends Creature {
         // Default adventurer options
         this.feats = []
         this.scores = []
-        this.level = 0
+        this.level = level
         this.inspiration = false
         this.name = ["David", "Hulk of House Hogan", "Steve", "Brandt the Slandt", "Carl the Wheezer"][Math.floor(Math.random() * 5)]
         // Randomize Alignment
@@ -72,19 +72,6 @@ class Adventurer extends Creature {
         this.initializeHp(type.hitDie, level, this.con.mod)
 
 
-    }
-
-    // Setters
-    set hp(hp) {
-        if (hp < 0) {
-            if (hp * -1 >= this.maxHp)
-                this.dead = true
-            this.hp = 0
-        } else {
-            if (hp > this.maxHp)
-                this.hp = this.maxHp
-        }
-        
     }
 
     // Helpers
@@ -227,7 +214,7 @@ class Adventurer extends Creature {
         // Apply base abilities
         this.applyAbilities(abilities)
         // Apply all level ups in order
-        for (let i = 1; i < lv; i++) {
+        for (let i = 0; i < lv; i++) {
             // Check for subclass ability improvements
             if (level[i].subclassFeature)
                 Object.assign(level[i], level[i].subclassFeature[subclass])
@@ -244,7 +231,7 @@ class Adventurer extends Creature {
                 this.feats.push('any')
             // Add custom resources
             if (level[i].resources)
-                for (key in level[i].resources)
+                for (let key in level[i].resources)
                     this[key] = level[i].resources[key]
         }
         // Get proficiency bonus
@@ -279,6 +266,16 @@ class Adventurer extends Creature {
                     }
                 }
             }
+            // Check for the next possible fighting style from the archetype
+            else if (feat === 'fightingStyle') {
+                for (let i = 0; i < feats.length; i++) {
+                    if (featsConfig[feats[i]].type === 'fightingStyle') {
+                        feat = feats[i]
+                        delete feats[i]
+                        break
+                    }
+                }
+            }
             // Handle no more origin feats available
             if (feat === 'origin')
                 continue
@@ -293,6 +290,8 @@ class Adventurer extends Creature {
                 this.scores.push(feat.score)
             if (feat.score2)
                 this.scores.push(feat.score2)
+            if (feat.hp)
+                this.maxHp *= feat.hp
             // Add ability score improvement to feats array if empty
             if (feats.length <= 0)
                 feats = ['Ability Score Improvement']
