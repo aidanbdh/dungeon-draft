@@ -10,9 +10,10 @@ const actions = {
         range: 0,
         cost: [],
         target: 'self',
-        func: function(_, __, event) {
+        func: function(_, __, state, log) {
             // Reroll the damage dice
             // Use the higher total for damage
+            log.push('Savage Attacker')
         }
     }
 }
