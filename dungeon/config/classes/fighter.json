@@ -39,7 +39,10 @@
         {
             "abilities": {
                 "event": ["Action Surge", "Tactical Mind"]
-            }
+            },
+            "resources": {
+                "actionSurgeUses": 1
+            } 
         },
         {
             "subclassFeature": {

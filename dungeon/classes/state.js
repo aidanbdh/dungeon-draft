@@ -75,9 +75,9 @@ class State {
                     // Check costs for each action
                     if (actions[j].cost.filter(cost => !creature[cost] || creature[cost] < 1)[0])
                         continue
-                    // TODO: handle conditions for actions
-                    // if(actions[i].conditions.filter(condition => condition))
-                    //     continue
+                    // Handle conditions for actions
+                    if(conditionNotFulfilled(actions[j].condition, creature))
+                        continue
                     // Execute action
                     actions[j].func(creature, null, this, this.log)
                     // Pay costs
@@ -93,6 +93,27 @@ class State {
             // Log end of turn
             this.log.push(`* End of ${creature.name}'s turn *\n`)
         })
+    }
+}
+
+function conditionNotFulfilled(conditions, creature) {
+    // List conditions NOT fulfilled
+    for (let i in conditions) {
+        // Switch based on condition, return if NOT fulfilled
+        switch(conditions[i]) {
+            // Creature is at half hp or less
+            case 'bloodied':
+                if(creature.hp <= creature.maxHp/2 )
+                    break
+                else
+                    return true
+            case 'todo':
+                console.log(`Placeholder condition ${condition} found. Skipping...`)
+                break
+            default:
+                console.log(`Unkown condition ${condition}`)
+        }
+
     }
 }
 
