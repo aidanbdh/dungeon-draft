@@ -30,10 +30,20 @@ const actions = {
 
             const mod = creature[weapon.ability].mod
 
-            return function(creature, target, state, log) {
+            return function(creature, target, _, log) {
+                // Roll to hit
+                let attackRoll = roll(20, 1, mod + creature.proficiencyBonus)
+                // Handle dodge action
+                if (target.dodge) {
+                    const disadvantageAttackRoll = roll(20, 1, mod + creature.proficiencyBonus)
+                    if (disadvantageAttackRoll < attackRoll)
+                        attackRoll = disadvantageAttackRoll
+                }
+                // Check vs AC
+                if (attackRoll < target.ac)
+                    return log.push(`${creature.name}'s attack missed ${target.name}`)
                 // Roll for damage
                 let damage = roll(die, mult, mod)
-                return log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage`)
                 // Modify damage
                 if (target.immunity === 'any' || target.immunity.indexOf(damageType) !== -1)
                     damage = 0
@@ -43,6 +53,7 @@ const actions = {
                 target.hp -= damage
                 // Trigger damage events *** Issue-28 ***
                 // state.event.damage(damage, target, creature)
+                return log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
             }
         }
     },

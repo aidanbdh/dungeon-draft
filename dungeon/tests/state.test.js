@@ -23,8 +23,10 @@ state.turn()
 // Manually set dylan's hp to 1
 dylan.hp = 1
 
-// Take another turn
-state.turn()
+// Keep fighting until dylan dies
+while (dylan.hp > 0) {
+    state.turn()
+}
 
 // Check for turn logs
 console.log(state.log.join('\n'))

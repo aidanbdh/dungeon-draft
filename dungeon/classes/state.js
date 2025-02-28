@@ -83,11 +83,16 @@ class State {
                     // TODO Issue-50, move into range
 
                     // Check for valid target within range
-                    if (actions[j].target !== 'self' && !checkRange(actions[j].range, creature, this))
+                    let target = null
+                    if (actions[j].target === 'self')
+                        target = creature
+                    else
+                        target = checkRange(actions[j].range, creature, this)
+                    // If no valid target, skip the action
+                    if(!target)
                         continue
                     // Execute action
-                    // TODO Issue-51, pass targets into action function
-                    actions[j].func(creature, null, this, this.log)
+                    actions[j].func(creature, target, this, this.log)
                     // Pay costs
                     actions[j].cost.forEach(cost => {
                         if (typeof creature[cost] === 'boolean')
