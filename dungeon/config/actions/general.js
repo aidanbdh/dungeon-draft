@@ -49,11 +49,13 @@ const actions = {
                     damage = 0
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
                     damage = Math.floor(damage/2)
+                // Log damage
+                log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
                 // Apply damage
                 target.hp -= damage
                 // Trigger damage events *** Issue-28 ***
                 // state.event.damage(damage, target, creature)
-                return log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
+                return
             }
         }
     },
@@ -65,7 +67,7 @@ const actions = {
         target: 'self',
         func: function(creature, _, __, log) {
             creature.dodge = true
-            log.push('Dodge')
+            log.push(`${creature.name} dodged`)
         }
     },
     disengage: {
