@@ -21,10 +21,12 @@ class State {
         // Initialize events object
         this.events = []
         // Add each event
-        this.room.forEach(creature => {
+        this.room.forEach((creature, position) => {
             // Skip empty spots in the room or creatures with no events
             if(!creature)
                 return
+            // Save each creature's position
+            creature.position = position
             // Roll initiative for each creature
             creature.rollInitiative()
             // Skip creatures with no events
@@ -78,7 +80,13 @@ class State {
                     // Handle conditions for actions
                     if(conditionNotFulfilled(actions[j].condition, creature))
                         continue
+                    // TODO Issue-50, move into range
+
+                    // Check for valid target within range
+                    if (actions[j].target !== 'self' && !checkRange(actions[j].range, creature, this))
+                        continue
                     // Execute action
+                    // TODO Issue-51, pass targets into action function
                     actions[j].func(creature, null, this, this.log)
                     // Pay costs
                     actions[j].cost.forEach(cost => {
@@ -108,13 +116,46 @@ function conditionNotFulfilled(conditions, creature) {
                 else
                     return true
             case 'todo':
-                console.log(`Placeholder condition ${condition} found. Skipping...`)
+                console.log(`Placeholder condition ${conditions[i]} found. Skipping...`)
                 break
             default:
-                console.log(`Unkown condition ${condition}`)
+                console.log(`Unkown condition ${conditions[i]}`)
         }
 
     }
+}
+
+function checkRange(range, creature, state) {
+    // Exit if creature is dead or fled
+    if (creature.position === null)
+        return false
+    // Check if the creature is a monster or adventurer
+    const type = creature.constructor.name
+    // Temporary handler for ranged weapons
+    if (Array.isArray(range))
+        range = range[0]
+    // Update range from ft to squares
+    range /= 5
+    
+    let target = null
+    // Find any targets to the left
+    for (let x = creature.position - 1; x >= 0 && x >= creature.position - range; x--) {
+        if (state.room[x] && state.room[x].constructor.name !== type) {
+            target = state.room[x]
+            break
+        }
+    }
+
+    // Find any targets to the right (Override if monster)
+    if (!target || type !== 'Monster')
+        for (let y = creature.position + 1; y < state.room.length && y <= creature.position + range; y++) {
+            if (state.room[y] && state.room[y].constructor.name !== type) {
+                target = state.room[y]
+                break
+            }
+        }
+    // Return the target or null
+    return target
 }
 
 export { State }

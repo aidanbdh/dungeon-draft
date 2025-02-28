@@ -20,6 +20,7 @@ export default class Creature {
         this.proficiencyBonus = 0
         this.initiative = 0
         this.initiativeBonus = 0
+        this.position = null
         this.dead = false
         this.str = {}
         this.dex = {}
