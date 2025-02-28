@@ -27,6 +27,8 @@ class State {
                 return
             // Save each creature's position
             creature.position = position
+            // Save state reference for each creature
+            creature.state = this
             // Roll initiative for each creature
             creature.rollInitiative()
             // Skip creatures with no events
@@ -60,6 +62,9 @@ class State {
         this.log.push(`--- Turn ${this.turnNumber} start ---\n`)
         // Handle each creature in initiative order
         this.initiative.forEach(creature => {
+            // Handle dead or fled creatures
+            if (!creature)
+                return
             // Log start of turn
             this.log.push(`* Start of ${creature.name}'s turn *`)
             // Refresh applicable resources
@@ -106,6 +111,15 @@ class State {
             // Log end of turn
             this.log.push(`* End of ${creature.name}'s turn *\n`)
         })
+    }
+
+    death(creature) {
+        // Remove creature from initiative
+        this.initiative[this.initiative.indexOf(creature)] = null
+        // Remove creature from room
+        this.room[creature.position] = null
+        // Log the death of the creature
+        this.log.push(`${creature.name} died`)
     }
 }
 

@@ -12,6 +12,7 @@ export default class Creature {
         this.speed = 30
         this.equipment = []
         // Data structure for Actions
+        this.state = null
         this.actions = ['dodge', 'disengage']
         this.Action = 1
         this["Bonus Action"] = 1
@@ -111,10 +112,10 @@ export default class Creature {
     // Protected values
     set hp(hp) {
         // Check for death
-        if (hp < 0) {
-            if (hp * -1 >= this.maxHp)
-                this.dead = true
-            this.hp = 0
+        if (hp <= 0) {
+            this.dead = true
+            this.state.death(this)
+            this.hitPoints = 0
         } else {
             if (hp > this.maxHp)
                 this.hp = this.maxHp
