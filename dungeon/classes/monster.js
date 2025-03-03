@@ -51,19 +51,6 @@ class Monster extends Creature {
         this.applyEvents()
     }
 
-    // Setters
-    set hp(hp) {
-        if (hp < 0) {
-            if (hp * -1 >= this.maxHp)
-                this.dead = true
-            this.hp = 0
-        } else {
-            if (hp > this.maxHp)
-                this.hp = this.maxHp
-        }
-        
-    }
-
     // Helpers
     setupStats(scores) {
         // Apply scores

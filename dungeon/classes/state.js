@@ -85,15 +85,13 @@ class State {
                     // Handle conditions for actions
                     if(conditionNotFulfilled(actions[j].condition, creature))
                         continue
-                    // TODO Issue-50, move into range
-
                     // Check for valid target within range
                     let target = null
                     if (actions[j].target === 'self')
                         target = creature
                     else
                         target = checkRange(actions[j].range, creature, this)
-                    // If no valid target, skip the action
+                    // If still no valid target, skip the action
                     if(!target)
                         continue
                     // Execute action
@@ -173,8 +171,58 @@ function checkRange(range, creature, state) {
                 break
             }
         }
+    if(target)
+        return target
+    // If no valid target, try to move into range
+    const movement = creature.speed / 5
+    let direction = 0
+    // Find any targets to the left
+    for (let x = creature.position - 1 - range; x >= 0; x--) {
+        if (state.room[x] && !state.room[x + 1] && state.room[x].constructor.name !== type) {
+            // Check if the creature's move can move to be in range
+            if (x >= creature.position - range - movement) {
+                target = state.room[x]
+                // Move to the target
+                move(creature, x + 1, state)
+            } else {
+                /// Set the move direction
+                direction = -1
+            }
+            break
+        }
+    }
+
+    // Find any targets to the right (Override if monster)
+    if (!target || type !== 'Monster')
+        for (let y = creature.position + 1 + range; y < state.room.length; y++) {
+            if (state.room[y] && !state.room[y - 1] && state.room[y].constructor.name !== type) {
+                // Check if the creature's move can move to be in range
+                if (y <= creature.position + range + movement) {
+                    target = state.room[y]
+                    // Move to the target
+                    move(creature, y - 1, state)
+                    direction = 0
+                } else {
+                    /// Set the move direction
+                    direction = 1
+                }
+                break
+            }
+        }
+    // Move towards a target IF no movement happened
+    if (direction !== 0)
+        move(creature, creature.position + movement * direction, state)
     // Return the target or null
     return target
+}
+
+function move(creature, newPosition, state) {
+    if (state.room[newPosition])
+        throw new Error(`Location ${newPosition} already occupied by ${state[newPosition].name}.`)
+    state.log.push(`${creature.name} moved ${Math.abs(newPosition - creature.position) * 5} ft.`)
+    state.room[creature.position] = null
+    state.room[newPosition] = creature
+    creature.position = newPosition
 }
 
 export { State }

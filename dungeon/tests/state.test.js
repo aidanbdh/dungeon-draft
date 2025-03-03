@@ -20,11 +20,8 @@ if (state.initiative[0] !== correctInitiative[0] || state.initiative[1] !== corr
 // Take one turn
 state.turn()
 
-// Manually set dylan's hp to 1
-dylan.hp = 1
-
-// Keep fighting until dylan dies
-while (dylan.hp > 0) {
+// Keep fighting until dylan dies or is the victor
+while (dylan.hp > 0 && !!state.initiative.filter(val => val)[1]) {
     state.turn()
 }
 
