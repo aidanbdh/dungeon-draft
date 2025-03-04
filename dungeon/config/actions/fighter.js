@@ -24,10 +24,7 @@ const actions = {
             creature.Action += 1
             log.push('Action Surge')
         }
-    }
-}
-
-const events = {
+    },
     "Tactical Mind": {
         priority: 0,
         trigger: 'abilitycheck-fail',
@@ -41,4 +38,4 @@ const events = {
     }
 }
 
-export { actions, events }
+export { actions }

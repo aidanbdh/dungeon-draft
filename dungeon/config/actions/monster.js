@@ -8,8 +8,4 @@ const actions = {
     
 }
 
-const events = {
-    
-}
-
-export { actions, events }
+export { actions }

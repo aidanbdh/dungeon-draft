@@ -42,9 +42,20 @@ const actions = {
                 // Check vs AC
                 if (attackRoll < target.ac)
                     return log.push(`${creature.name}'s attack missed ${target.name}`)
+                // Construct options
+                const options = {}
+                let advantage  = false
+                // *** FEATS ***
+                // Great Weapon Fighting
+                if (creature['Great Weapon Fighting'] && !weapon.range && (weapon.properties.indexOf('Two-Handed') !== -1 || weapon.properties.indexOf('Versatile') !== -1))
+                    options.minimum = 3
+                // Savage Attacker
+                if (creature['Savage Attacker'])
+                    advantage = true
+
                 // Roll for damage
-                let damage = roll(die, mult, mod)
-                // Modify damage
+                let damage = roll(die, mult, mod, advantage, [], options)
+                // Modify damage for immunity and resistance
                 if (target.immunity === 'any' || target.immunity.indexOf(damageType) !== -1)
                     damage = 0
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
@@ -83,10 +94,4 @@ const actions = {
     }
 }
 
-const events = {
-    // opportunityAttack: {
-        
-    // }
-}
-
-export { actions, events }
+export { actions }

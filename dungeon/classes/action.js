@@ -21,7 +21,6 @@ class Action {
     /*
         name
         priority
-        trigger
         cost
         condition
         range
@@ -53,8 +52,6 @@ class Action {
         // Set parameters from action config
         this.name = actionName
         this.priority = archetype.actions && archetype.actions[actionName] ? archetype.actions[actionName] : false || action.priority || 0
-        // Set triggers for reactions or passive abilities
-        this.trigger = action.trigger || null
         // When attempting an action, start by checking the cost
         this.cost = action.cost || null
         // Then check for conditions
@@ -64,6 +61,9 @@ class Action {
         this.target = action.target
         // Execute the function
         this.func = action.func
+        // Add trigger for Events
+        if (action.trigger)
+            this.trigger = action.trigger
     }
 
 }

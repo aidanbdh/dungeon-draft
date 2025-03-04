@@ -1,7 +1,7 @@
 {
     "Savage Attacker": {
         "type": "origin",
-        "event": "Savage Attacker"
+        "flag": "Savage Attacker"
     },
     "Tough": {
         "type": "origin",
@@ -15,7 +15,7 @@
     "Great Weapon Fighting": {
         "type": "fightingStyle",
         "score": "str",
-        "event": "Great Weapon Fighting"
+        "flag": "Great Weapon Fighting"
     },
     "Great Weapon Master": {
         "type": "general",
