@@ -19,7 +19,7 @@ class State {
         // Add the monsters
         this.room.push(...monsters)
         // Initialize events object
-        this.events = []
+        this.events = {}
         // Add each event
         this.room.forEach((creature, position) => {
             // Skip empty spots in the room or creatures with no events
@@ -34,11 +34,8 @@ class State {
             // Skip creatures with no events
             if(!creature.events)
                 return
-            // Add events from that creature's events array to the overall events
-           creature.events.forEach(event => {
-                // Add event to events object
-                this.events[`${creature.name || creature.type}-${event}`] = {executor: creature, event }
-            })
+            // Add events from that creature's stateEvents array to the overall events
+            Object.assign(this.events, creature.stateEvents)
         })
         // Initialize Log
         this.log = ['Combat Start']
@@ -71,6 +68,7 @@ class State {
             creature.Action = 1
             creature["Bonus Action"] = 1
             creature.Reaction = 1
+            creature.Dodge = false
             // Get a list of all priorities
             const priorities = Object.keys(creature.actions).sort((a, b) => b - a)
             // Iterate over each action priority

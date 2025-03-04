@@ -35,6 +35,7 @@ class Monster extends Creature {
         this.cr = monster.cr
         this.traits = monster.traits || []
         this.actions = monster.actions
+        this.events = monster.events
         this.proficiencyBonus = monster.proficiencyBonus
         this.proficiencies = monster.proficiencies || []
         // Set hp
@@ -47,8 +48,8 @@ class Monster extends Creature {
         this.applyEquipment(monster.equipment || [], monster.customEquipment || [])
         // Apply actions
         this.applyActions(monster)
-        // Apply events *** Issue-26 ***
-        this.applyEvents()
+        // Apply events
+        this.applyEvents(monster)
     }
 
     // Helpers
@@ -140,9 +141,27 @@ class Monster extends Creature {
         this.actions = obj
     }
 
+    // This organizes events by trigger and priority
     applyEvents() {
-        // This function should look up each possible event and format it based on trigger
-        // Issue-26
+        // The new event  format object
+        const selfObj = {}
+        const stateObj = {}
+        // Skip if no events
+        if (this.events)
+            // This function should look up each possible event for the adventurer to take and format it based on priority.
+            for (let i = 0; i < this.events.length; i++) {
+                // Create the action object based on action name, class and archetype.
+                const event = new Action(this.events[i], 'monster', {}, this.equipment, this)
+                // Choose self or state events to add to
+                const obj = event.target === 'self' ? selfObj : stateObj
+                // Create an entry for events at the trigger level if needed
+                if (!obj[event.trigger]) 
+                    obj[event.trigger] = {}
+                // Add to or create an entry for events at the priority level
+                obj[event.trigger][event.priority] ? obj[event.trigger][event.priority].push(event) : obj[event.trigger][event.priority] = [event]
+            }
+        this.events = selfObj
+        this.stateEvents = stateObj
     }
 
     initializeHp(hp) {

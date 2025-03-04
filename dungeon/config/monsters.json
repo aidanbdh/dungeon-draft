@@ -72,9 +72,9 @@
         "languages": [],
         "cr": 0.25,
         "traits": {
-            "event": ["Undead Fortitude"]
         },
         "actions": [],
+        "events": ["Undead Fortitude"],
         "proficiencies": ["wis-save"],
         "equipment": [],
         "customEquipment": [{

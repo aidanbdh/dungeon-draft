@@ -2,8 +2,8 @@
 
 // Helpers for files
 
-function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], raw = false) {
-    const rolls = []
+function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], options = {}, raw = false) {
+    let rolls = []
     // Do required number of rolls
     while (multiple > 0) {
         let result = Math.floor((Math.random() * die) + 1)
@@ -15,7 +15,7 @@ function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], raw = 
         rolls.push(result)
         multiple--
     }
-    // Sort rolls for ease of use *** REMOVE IF PERFORMANCE ISSUES ***
+    // Sort rolls for ease of use
     rolls.sort((a, b) => a - b)
     // Change drop to array if needed
     if (typeof drop === 'string' || typeof drop === 'number')
@@ -29,6 +29,9 @@ function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], raw = 
         else if(typeof drop === 'Number')
             rolls = rolls.filter(roll => roll !== drop)
     })
+    // Handle number changes in options
+    if (options.minimum)
+        rolls = rolls.map(roll => roll < options.minimum ? options.minimum : roll)
     // Return all rolls if raw rolls are needed
     if (raw)
         return rolls
