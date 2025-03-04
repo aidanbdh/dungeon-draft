@@ -4,6 +4,11 @@ import { roll } from "../../helper.js"
 
 const actions = {
     // Feats
+    
+}
+
+const events = {
+    // Feats
     'Savage Attacker': {
         priority: 3,
         trigger: 'damage',
@@ -18,4 +23,4 @@ const actions = {
     }
 }
 
-export { actions }
+export { actions, events }

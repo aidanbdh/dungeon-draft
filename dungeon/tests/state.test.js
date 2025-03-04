@@ -4,7 +4,7 @@ import { Adventurer } from "../classes/adventurer.js"
 import { Monster } from "../classes/monster.js"
 import { State } from "../classes/state.js"
 
-const dylan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
+const dylan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 1, {})
 
 const rodZombie = new Monster('Zombie')
 

@@ -83,4 +83,10 @@ const actions = {
     }
 }
 
-export { actions }
+const events = {
+    // opportunityAttack: {
+        
+    // }
+}
+
+export { actions, events }
