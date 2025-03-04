@@ -41,7 +41,7 @@ const actions = {
                 }
                 // Check vs AC
                 if (attackRoll < target.ac)
-                    return log.push(`${creature.name}'s attack missed ${target.name}`)
+                    return log.push(`${creature.name}'s attack missed ${target.name} with a ${attackRoll}`)
                 // Construct options
                 const options = {}
                 let advantage  = false
@@ -64,8 +64,6 @@ const actions = {
                 log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
                 // Apply damage
                 target.hp -= damage
-                // Trigger damage events *** Issue-28 ***
-                // state.event.damage(damage, target, creature)
                 return
             }
         }

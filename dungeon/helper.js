@@ -3,7 +3,7 @@
 // Helpers for files
 
 function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], options = {}, raw = false) {
-    const rolls = []
+    let rolls = []
     // Do required number of rolls
     while (multiple > 0) {
         let result = Math.floor((Math.random() * die) + 1)
