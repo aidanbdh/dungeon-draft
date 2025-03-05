@@ -39,6 +39,13 @@ function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], option
     return rolls.reduce((total, result) => total + result) + bonus
 }
 
+function check(creature, stat, DC, options = {}) {
+    // Roll a D20 and add the modifier
+    const result = roll(20, 1, creature[stat].mod, options.advantage, options.drop, options)
+    // Check vs DC
+    return result >= DC
+}
+
 function getMod(num) {
     num -= 10
     num /= 2
@@ -46,4 +53,4 @@ function getMod(num) {
     return num
 }
 
-export { roll, getMod }
+export { roll, getMod, check }

@@ -60,6 +60,12 @@ const actions = {
                     damage = 0
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
                     damage = Math.floor(damage/2)
+                // Save event for triggering other events
+                target.latestEvent = {
+                    damage,
+                    damageType,
+                    crit: false
+                }
                 // Log damage
                 log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
                 // Apply damage
