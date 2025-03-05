@@ -32,6 +32,7 @@ export default class Creature {
         this.int = {}
         this.cha = {}
         this.events = []
+        this.latestEvent = {}
         this.skills = {
             Athletics: {
                 mod: 0,
@@ -113,9 +114,19 @@ export default class Creature {
     set hp(hp) {
         // Check for death
         if (hp <= 0) {
-            this.dead = true
-            this.state.death(this)
             this.hitPoints = 0
+            // Trigger death events
+            for (let p in this.events.death) {
+                this.events.death[p].forEach(event => {
+                    // Trigger the function
+                    event.func(this, this.latestEvent, this.state, this.state.log)
+                })
+            }
+            // If the creature is still dead, set flags
+            if (this.hitPoints === 0) {
+                this.dead = true
+                this.state.death(this)
+            }
         } else {
             if (hp > this.maxHp)
                 this.hp = this.maxHp
