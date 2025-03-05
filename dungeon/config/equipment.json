@@ -52,7 +52,7 @@
     },
     "Light Crossbow": {
         "type": "Weapon",
-        "damage": "1d8 P",
+        "damage": "1D8 P",
         "mastery": "Slow",
         "properties":["Ammunition", "Loading", "Two-Handed"],
         "range": [80, 320]

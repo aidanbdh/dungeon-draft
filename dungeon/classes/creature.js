@@ -10,6 +10,7 @@ export default class Creature {
         this.maxHp = 0
         this.tempHp = 0
         this.speed = 30
+        this.movement = 0
         this.equipment = []
         // Data structure for Actions
         this.state = null

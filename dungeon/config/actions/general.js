@@ -12,7 +12,7 @@ const actions = {
         func: function(weapon, creature) {
             // Calculate damage potential from weapon and stats
             const mult = Number.parseInt(weapon.damage[0])
-            const die = Number.parseInt(weapon.damage.slice(weapon.damage.indexOf('D') + 1, weapon.damage.indexOf(' ') + 1))
+            const die = Number.parseInt(weapon.damage.slice(weapon.damage.toUpperCase().indexOf('D') + 1, weapon.damage.indexOf(' ') + 1))
             const damageType = function() {
                 switch (weapon.damage[weapon.damage.length - 1]) {
                     case 'B':
