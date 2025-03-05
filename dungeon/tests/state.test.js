@@ -17,15 +17,32 @@ const correctInitiative = [dylan, rodZombie, samSkeleton].sort((a, b) => b.initi
 if (state.initiative[0] !== correctInitiative[0] || state.initiative[1] !== correctInitiative[1] || state.initiative[2] !== correctInitiative[2])
     console.log(`Potentially incorrect initiative. Check for ties.`)
 
-// Take one turn
-state.turn()
+// // Take one turn
+// state.turn()
 
-// Keep fighting until dylan dies or is the victor
-while (dylan.hp > 0 && !!state.initiative.filter(val => val)[1]) {
-    state.turn()
-}
+// // Keep fighting until dylan dies or is the victor
+// while (dylan.hp > 0 && !!state.initiative.filter(val => val)[1]) {
+//     state.turn()
+// }
 
 // Check for turn logs
 console.log(state.log.join('\n'))
 
-console.log('Done testing state.')
+console.log('Done testing state 1.')
+
+console.log('\n\nTesting state 2')
+
+const eylan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
+
+const enemies = ['Bandit', 'Bandit', 'Bandit', 'Bandit'].map(monster => new Monster(monster))
+
+const state2 = new State([eylan], enemies)
+
+// Keep fighting until dylan dies or is the victor
+while (eylan.hp > 0 && !!state2.initiative.filter(val => val)[1]) {
+    state2.turn()
+}
+
+console.log(state2.log.join('\n'))
+
+console.log('Done testing state 2.')

@@ -116,12 +116,13 @@ export default class Creature {
         if (hp <= 0) {
             this.hitPoints = 0
             // Trigger death events
-            for (let p in this.events.death) {
-                this.events.death[p].forEach(event => {
-                    // Trigger the function
-                    event.func(this, this.latestEvent, this.state, this.state.log)
-                })
-            }
+            if (this.events.death)
+                for (let p in this.events.death) {
+                    this.events.death[p].forEach(event => {
+                        // Trigger the function
+                        event.func(this, this.latestEvent, this.state, this.state.log)
+                    })
+                }
             // If the creature is still dead, set flags
             if (this.hitPoints === 0) {
                 this.dead = true

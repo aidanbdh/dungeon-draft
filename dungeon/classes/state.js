@@ -158,29 +158,19 @@ function checkRange(range, creature, state) {
     let i = 0
     // Find any targets to the left
     for (let x = creature.position - 1; x >= 0 && x >= creature.position - range; x--) {
-        for (i = 0; i < state.room[x].length; i++) {
-            if (state.room[x][i].constructor.name !== type) {
-                target = state.room[x][i]
-                break
-            }
+        if (state.room[x][0] && state.room[x][0].constructor.name !== type) {
+            target = state.room[x][0]
+            break
         }
-        // Quit if a target was found
-        if (target)
-            break  
     }
 
     // Find any targets to the right (Override if monster)
     if (!target || type !== 'Monster')
         for (let y = creature.position + 1; y < state.room.length && y <= creature.position + range; y++) {
-            for (i = 0; i < state.room[y].length; i++) {
-                if (state.room[y][i].constructor.name !== type) {
-                    target = state.room[y][i]
-                    break
-                }
-            }
-            // Quit if a target was found
-            if (i < state.room[y].length)
+            if (state.room[y][0] && state.room[y][0].constructor.name !== type) {
+                target = state.room[y][0]
                 break
+            }
         }
     if(target)
         return target
@@ -189,45 +179,36 @@ function checkRange(range, creature, state) {
     let direction = 0
     // Find any targets to the left
     for (let x = creature.position - 1 - range; x >= 0; x--) {
-        for (i = 0; i < state.room[x].length; i++) {
-            if (state.room[x][i].constructor.name !== type) {
-                if (x >= creature.position - range - movement && state.room[x + 1].length <= 4) {
-                    target = state.room[x][i]
-                    // Move to the target
-                    move(creature, x + 1, state)
-                } else {
-                    /// Set the move direction
-                    direction = -1
-                }
-                break
+        if (state.room[x][0] && state.room[x][0].constructor.name !== type) {
+            if (x >= creature.position - range - movement && state.room[x + 1].length <= 4) {
+                target = state.room[x][0]
+                // Move to the target
+                move(creature, x + 1, state)
+                direction = 0
+            } else {
+                /// Set the move direction
+                direction = -1
             }
-        }
-        // Quit if a target was found
-        if (target)
             break
+        }
     }
 
     // Find any targets to the right (Override if monster)
     if (!target || type !== 'Monster')
         for (let y = creature.position + 1 + range; y < state.room.length; y++) {
-            for (i = 0; i < state.room[y].length; i++) {
-                if (state.room[y][i].constructor.name !== type) {
-                    // Check if the creature's move can move to be in range
-                    if (y <= creature.position + range + movement && state.room[y - 1].length <= 4) {
-                        target = state.room[y][i]
-                        // Move to the target
-                        move(creature, y - 1, state)
-                        direction = 0
-                    } else {
-                        /// Set the move direction
-                        direction = 1
-                    }
-                    break
+            if (state.room[y][0] && state.room[y][0].constructor.name !== type) {
+                // Check if the creature's move can move to be in range
+                if (y <= creature.position + range + movement && state.room[y - 1].length <= 4) {
+                    target = state.room[y][0]
+                    // Move to the target
+                    move(creature, y - 1, state)
+                    direction = 0
+                } else {
+                    /// Set the move direction
+                    direction = 1
                 }
-            }
-            // Quit if a target was found
-            if (i < state.room[y].length)
                 break
+            }
         }
     // Move towards a target IF no movement happened
     if (direction !== 0)

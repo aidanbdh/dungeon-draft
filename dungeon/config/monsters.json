@@ -24,6 +24,37 @@
         "equipment": [],
         "customEquipment": []
     },
+    "bandit": {
+        "size": "m",
+        "species": "Humanoid",
+        "alignment": "Chaotic Evil",
+        "ac": 12,
+        "initiative": 1,
+        "hp": "2D8 + 2",
+        "speed": 30,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 11,
+            "dex": 12,
+            "con": 12,
+            "int": 10,
+            "wis": 10,
+            "cha": 10
+        },
+        "languages": [],
+        "cr": 0.16,
+        "traits": [],
+        "actions": [],
+        "proficiencies": [],
+        "priorities": {
+            "actions": { 
+                "Attack-Light Crossbow": 3, 
+                "Attack-Scimitar": 3
+            }
+        },
+        "equipment": ["Scimitar", "Light Crossbow"],
+        "customEquipment": []
+    },
     "skeleton": {
         "size": "m",
         "species": "Undead",
