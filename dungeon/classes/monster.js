@@ -34,7 +34,7 @@ class Monster extends Creature {
         this.languages = monster.languages || []
         this.cr = monster.cr
         this.traits = monster.traits || []
-        this.actions = monster.actions
+        this.actions = [...monster.actions]
         this.events = monster.events
         this.proficiencyBonus = monster.proficiencyBonus
         this.proficiencies = monster.proficiencies || []
