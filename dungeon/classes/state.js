@@ -13,29 +13,31 @@ class State {
         // Initialize
         this.turnNumber = 0
         // Initialize the room with adventurers
-        this.room = [...adventurers.reverse()]
+        this.room = [...adventurers.reverse().map(adventurer => [adventurer])]
         // Add 30ft of space between the adventurers and monsters
-        this.room.push(...[null, null, null, null, null, null])
+        this.room.push(...[[], [], [], [], [], []])
         // Add the monsters
-        this.room.push(...monsters)
+        this.room.push(...monsters.map(monster => [monster]))
         // Initialize events object
         this.events = {}
         // Add each event
-        this.room.forEach((creature, position) => {
-            // Skip empty spots in the room or creatures with no events
-            if(!creature)
-                return
-            // Save each creature's position
-            creature.position = position
-            // Save state reference for each creature
-            creature.state = this
-            // Roll initiative for each creature
-            creature.rollInitiative()
-            // Skip creatures with no events
-            if(!creature.events)
-                return
-            // Add events from that creature's stateEvents array to the overall events
-            Object.assign(this.events, creature.stateEvents)
+        this.room.forEach((creatures, position) => {
+            creatures.forEach(creature => {
+                 // Skip empty spots in the room or creatures with no events
+                if(!creature)
+                    return
+                // Save each creature's position
+                creature.position = position
+                // Save state reference for each creature
+                creature.state = this
+                // Roll initiative for each creature
+                creature.rollInitiative()
+                // Skip creatures with no events
+                if(!creature.events)
+                    return
+                // Add events from that creature's stateEvents array to the overall events
+                Object.assign(this.events, creature.stateEvents)
+            })
         })
         // Initialize Log
         this.log = ['Combat Start']
@@ -113,7 +115,7 @@ class State {
         // Remove creature from initiative
         this.initiative[this.initiative.indexOf(creature)] = null
         // Remove creature from room
-        this.room[creature.position] = null
+        this.room[creature.position] = this.room[creature.position].filter(thing => thing !== creature)
         // Log the death of the creature
         this.log.push(`${creature.name} died`)
     }
@@ -153,21 +155,32 @@ function checkRange(range, creature, state) {
     range /= 5
     
     let target = null
+    let i = 0
     // Find any targets to the left
     for (let x = creature.position - 1; x >= 0 && x >= creature.position - range; x--) {
-        if (state.room[x] && state.room[x].constructor.name !== type) {
-            target = state.room[x]
-            break
+        for (i = 0; i < state.room[x].length; i++) {
+            if (state.room[x][i].constructor.name !== type) {
+                target = state.room[x][i]
+                break
+            }
         }
+        // Quit if a target was found
+        if (target)
+            break  
     }
 
     // Find any targets to the right (Override if monster)
     if (!target || type !== 'Monster')
         for (let y = creature.position + 1; y < state.room.length && y <= creature.position + range; y++) {
-            if (state.room[y] && state.room[y].constructor.name !== type) {
-                target = state.room[y]
-                break
+            for (i = 0; i < state.room[y].length; i++) {
+                if (state.room[y][i].constructor.name !== type) {
+                    target = state.room[y][i]
+                    break
+                }
             }
+            // Quit if a target was found
+            if (i < state.room[y].length)
+                break
         }
     if(target)
         return target
@@ -176,36 +189,45 @@ function checkRange(range, creature, state) {
     let direction = 0
     // Find any targets to the left
     for (let x = creature.position - 1 - range; x >= 0; x--) {
-        if (state.room[x] && !state.room[x + 1] && state.room[x].constructor.name !== type) {
-            // Check if the creature's move can move to be in range
-            if (x >= creature.position - range - movement) {
-                target = state.room[x]
-                // Move to the target
-                move(creature, x + 1, state)
-            } else {
-                /// Set the move direction
-                direction = -1
+        for (i = 0; i < state.room[x].length; i++) {
+            if (state.room[x][i].constructor.name !== type) {
+                if (x >= creature.position - range - movement && state.room[x + 1].length <= 4) {
+                    target = state.room[x][i]
+                    // Move to the target
+                    move(creature, x + 1, state)
+                } else {
+                    /// Set the move direction
+                    direction = -1
+                }
+                break
             }
-            break
         }
+        // Quit if a target was found
+        if (target)
+            break
     }
 
     // Find any targets to the right (Override if monster)
     if (!target || type !== 'Monster')
         for (let y = creature.position + 1 + range; y < state.room.length; y++) {
-            if (state.room[y] && !state.room[y - 1] && state.room[y].constructor.name !== type) {
-                // Check if the creature's move can move to be in range
-                if (y <= creature.position + range + movement) {
-                    target = state.room[y]
-                    // Move to the target
-                    move(creature, y - 1, state)
-                    direction = 0
-                } else {
-                    /// Set the move direction
-                    direction = 1
+            for (i = 0; i < state.room[y].length; i++) {
+                if (state.room[y][i].constructor.name !== type) {
+                    // Check if the creature's move can move to be in range
+                    if (y <= creature.position + range + movement && state.room[y - 1].length <= 4) {
+                        target = state.room[y][i]
+                        // Move to the target
+                        move(creature, y - 1, state)
+                        direction = 0
+                    } else {
+                        /// Set the move direction
+                        direction = 1
+                    }
+                    break
                 }
-                break
             }
+            // Quit if a target was found
+            if (i < state.room[y].length)
+                break
         }
     // Move towards a target IF no movement happened
     if (direction !== 0)
@@ -215,11 +237,14 @@ function checkRange(range, creature, state) {
 }
 
 function move(creature, newPosition, state) {
-    if (state.room[newPosition])
-        throw new Error(`Location ${newPosition} already occupied by ${state[newPosition].name}.`)
+    // Only allow 4 creatures in a space
+    if (state.room[newPosition].length > 4)
+        throw new Error(`Location ${newPosition} already full.`)
+    if (state.room[newPosition][0] && state.room[newPosition][0].constructor.type !== creature.constructor.type)
+        throw new Error(`Attempting to move through an occupied space.`)
     state.log.push(`${creature.name} moved ${Math.abs(newPosition - creature.position) * 5} ft.`)
-    state.room[creature.position] = null
-    state.room[newPosition] = creature
+    state.room[creature.position] = state.room[creature.position].filter(thing => thing !== creature)
+    state.room[newPosition].push(creature)
     creature.position = newPosition
 }
 
