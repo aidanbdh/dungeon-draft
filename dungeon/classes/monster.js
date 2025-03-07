@@ -112,7 +112,6 @@ class Monster extends Creature {
         for (let i = 0; i < customEquipment.length; i++) {
             // Add equipment to monster
             this.equipment[i + equipments.length] = customEquipment[i]
-            
         }
         // Handle equipment
         for (let i = 0; i < this.equipment.length; i++) {
