@@ -103,8 +103,9 @@ class State {
                             creature[cost] = false
                         else 
                             creature[cost] -= 1
-                    }) 
-
+                    })
+                    // Go back to the start of the priority list
+                    i = 0
                 }
             }
             // Log end of turn
