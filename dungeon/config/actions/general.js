@@ -11,22 +11,10 @@ const actions = {
         target: 'creature',
         func: function(weapon, creature) {
             // Calculate damage potential from weapon and stats
-            const mult = Number.parseInt(weapon.damage[0])
-            const die = Number.parseInt(weapon.damage.slice(weapon.damage.toUpperCase().indexOf('D') + 1, weapon.damage.indexOf(' ') + 1))
-            const damageType = function() {
-                switch (weapon.damage[weapon.damage.length - 1]) {
-                    case 'B':
-                        return 'Bludgeoning'
-                    case 'P':
-                        return 'Piercing'
-                    case 'S':
-                        return 'Slashing'
-                    case 'F': // Use for any resistance bypassing damage for now
-                        return 'Force'
-                    default:
-                        throw new Error(`Unsupported damage type ${weapon.damage[weapon.damage.length - 1]}`)
-                }
-            }()
+            const parsedDamage = parseDamage(weapon.damage)
+            const mult = parsedDamage.mult
+            const die = parsedDamage.die
+            const damageType = parsedDamage.damageType
 
             const mod = creature[weapon.ability].mod
 
@@ -60,16 +48,28 @@ const actions = {
                     damage = 0
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
                     damage = Math.floor(damage/2)
-                // Save event for triggering other events
-                target.latestEvent = {
-                    damage,
-                    damageType,
-                    crit: false
+                // Handle bonus damage
+                let parsedBonusDamage = null
+                if (weapon.bonus) {
+                    parsedBonusDamage = parseDamage(weapon.bonus)
+                    // Roll for damage
+                    parsedBonusDamage.damage = roll(parsedBonusDamage.die, parsedBonusDamage.mult, parsedBonusDamage.mod, false, [])
+                    // Modify damage for immunity and resistance
+                    if (target.immunity === 'any' || target.immunity.indexOf(parsedBonusDamage.damageType) !== -1)
+                        parsedBonusDamage.damage = 0
+                    else if (target.resistance === 'any' || target.resistance.indexOf(parsedBonusDamage.damageType) !== -1)
+                        parsedBonusDamage.damage = Math.floor(parsedBonusdamage.damage/2)
                 }
+                // // Save event for triggering other events
+                // target.latestEvent = {
+                //     damage,
+                //     damageType, // update to include bonus damage type if necessary
+                //     crit: false
+                // }
                 // Log damage
-                log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage to ${target.name}`)
+                log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage ${parsedBonusDamage ? `and ${parsedBonusDamage.damage} ${parsedBonusDamage.damageType} damage ` : ''}to ${target.name}`)
                 // Apply damage
-                target.hp -= damage
+                target.hp -= damage + (parsedBonusDamage ? parsedBonusDamage.damage : 0)
                 return
             }
         }
@@ -96,6 +96,29 @@ const actions = {
             log.push('Disengage')
         }
     }
+}
+
+function parseDamage(damage) {
+    const mult = Number.parseInt(damage[0])
+    const die = Number.parseInt(damage.slice(damage.toUpperCase().indexOf('D') + 1, damage.indexOf(' ') + 1))
+    const damageType = function() {
+        switch (damage[damage.length - 1]) {
+            case 'B':
+                return 'Bludgeoning'
+            case 'P':
+                return 'Piercing'
+            case 'S':
+                return 'Slashing'
+            case 'N':
+                return 'Necrotic'
+            case 'F': // Use for any resistance bypassing damage for now
+                return 'Force'
+            default:
+                throw new Error(`Unsupported damage type ${damage[damage.length - 1]}`)
+        }
+    }()
+
+    return { mult, die, damageType }
 }
 
 export { actions }

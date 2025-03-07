@@ -34,7 +34,7 @@ console.log('\n\nTesting state 2')
 
 const eylan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
 
-const enemies = ['Bandit', 'Bandit', 'Bandit', 'Bandit'].map(monster => new Monster(monster))
+const enemies = ['Bandit', 'Bandit', 'Cultist', 'Cultist'].map(monster => new Monster(monster))
 
 const state2 = new State([eylan], enemies)
 

@@ -55,6 +55,37 @@
         "equipment": ["Scimitar", "Light Crossbow"],
         "customEquipment": []
     },
+    "cultist": {
+        "size": "m",
+        "species": "Humanoid",
+        "alignment": "Lawful Evil",
+        "ac": 12,
+        "initiative": 1,
+        "hp": "2D8",
+        "speed": 30,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 11,
+            "dex": 12,
+            "con": 10,
+            "int": 10,
+            "wis": 11,
+            "cha": 10
+        },
+        "languages": [],
+        "cr": 0.16,
+        "traits": [],
+        "actions": [],
+        "proficiencies": [],
+        "equipment": [],
+        "customEquipment": [{
+            "name": "Ritual Sickle",
+            "type": "Weapon",
+            "damage": "1D4 S",
+            "bonus": "1D1 N",
+            "properties": []
+        }]
+    },
     "skeleton": {
         "size": "m",
         "species": "Undead",
