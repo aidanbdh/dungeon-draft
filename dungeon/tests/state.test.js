@@ -34,11 +34,11 @@ console.log('\n\nTesting state 2')
 
 const eylan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
 
-const enemies = ['Bandit', 'Bandit', 'Cultist', 'Cultist'].map(monster => new Monster(monster))
+const enemies = ['Bandit', 'Cultist', 'Giant Rat', 'Giant Rat'].map(monster => new Monster(monster))
 
 const state2 = new State([eylan], enemies)
 
-// Keep fighting until dylan dies or is the victor
+// Keep fighting until eylan dies or is the victor
 while (eylan.hp > 0 && !!state2.initiative.filter(val => val)[1]) {
     state2.turn()
 }

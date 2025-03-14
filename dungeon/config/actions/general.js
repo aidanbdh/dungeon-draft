@@ -18,11 +18,27 @@ const actions = {
 
             const mod = creature[weapon.ability].mod
 
-            return function(creature, target, _, log) {
-                // Roll to hit
-                let attackRoll = roll(20, 1, mod + creature.proficiencyBonus)
+            return function(creature, target, state, log) {
+                // Check for advantage to hit
+                let advantage = false
+                // Handle pack tactics
+                if (creature.traits && creature.traits.indexOf('Pack Tactics') !== -1 && state.room[creature.position].filter(c => !c.incapacitated).length > 1)
+                    advantage = true
+                // Check for disadvantage
+                let disadvantage = false
                 // Handle dodge action
                 if (target.dodge) {
+                    disadvantage = true
+                }
+                // Check for advantage and disadvantage
+                if (advantage && disadvantage) {
+                    advantage = false
+                    disadvantage = false
+                }
+                // Roll to hit
+                let attackRoll = roll(20, 1, mod + creature.proficiencyBonus, advantage)
+                // Handle dodge action
+                if (disadvantage) {
                     const disadvantageAttackRoll = roll(20, 1, mod + creature.proficiencyBonus)
                     if (disadvantageAttackRoll < attackRoll)
                         attackRoll = disadvantageAttackRoll
@@ -32,7 +48,7 @@ const actions = {
                     return log.push(`${creature.name}'s attack missed ${target.name} with a ${attackRoll}`)
                 // Construct options
                 const options = {}
-                let advantage  = false
+                advantage  = false
                 // *** FEATS ***
                 // Great Weapon Fighting
                 if (creature['Great Weapon Fighting'] && !weapon.range && (weapon.properties.indexOf('Two-Handed') !== -1 || weapon.properties.indexOf('Versatile') !== -1))
