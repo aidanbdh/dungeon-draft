@@ -86,6 +86,38 @@
             "properties": []
         }]
     },
+    "giant rat": {
+        "size": "s",
+        "species": "Beast",
+        "alignment": "Unaligned",
+        "ac": 13,
+        "initiative": 3,
+        "hp": "2D6",
+        "speed": 30,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 7,
+            "dex": 16,
+            "con": 11,
+            "int": 2,
+            "wis": 10,
+            "cha": 4
+        },
+        "languages": [],
+        "cr": 0.16,
+        "traits": ["Pack Tactics"],
+        "actions": [],
+        "events": [],
+        "proficiencies": ["Perception"],
+        "equipment": [],
+        "customEquipment": [{
+            "name": "Bite",
+            "type": "Weapon",
+            "damage": "1D4 P",
+            "ability": "dex",
+            "properties": ["Finesse"]
+        }]
+    },
     "skeleton": {
         "size": "m",
         "species": "Undead",
@@ -133,8 +165,7 @@
         },
         "languages": [],
         "cr": 0.25,
-        "traits": {
-        },
+        "traits": [],
         "actions": [],
         "events": ["Undead Fortitude"],
         "proficiencies": ["wis-save"],
