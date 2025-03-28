@@ -40,8 +40,9 @@ function roll(die, multiple = 1, bonus = 0, advantage = false, drop = [], option
 }
 
 function check(creature, stat, DC, options = {}) {
+    const mod = creature[stat] ? creature[stat].mod : creature.skills[stat].mod
     // Roll a D20 and add the modifier
-    const result = roll(20, 1, creature[stat].mod, options.advantage, options.drop, options)
+    const result = roll(20, 1, mod, options.advantage, options.drop, options)
     // Check vs DC
     return result >= DC
 }
