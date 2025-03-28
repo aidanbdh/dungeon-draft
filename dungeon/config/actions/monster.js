@@ -18,11 +18,22 @@ const actions = {
             // Adjust position for end of room
             if (newPosition >= state.room.length)
                 newPosition = state.room.length - 1
-            // Move with no opportunity attacks
-            creature.disengage = true
-            log.push(`${creature.name} used Nimble Escape to Disengage`)
-            if (newPosition !== creature.position)
+            // Move if there is room to move
+            if (newPosition !== creature.position) {
+                // Move with no opportunity attacks
+                creature.disengage = true
+                log.push(`${creature.name} used Nimble Escape to Disengage`)
                 state.move(creature, newPosition)
+            } else { // Try to hide instead
+                // Make a stealth check
+                if (check(creature, 'Stealth', 15)) {
+                    log.push(`${creature.name} successfully hid.`)
+                creature.hidden = true
+                } else {
+                    log.push(`${creature.name} failed to hide.`)
+                }
+            }
+
         }
     },
     "Nimble Escape Hide": {
