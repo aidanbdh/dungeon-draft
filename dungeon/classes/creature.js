@@ -26,6 +26,7 @@ export default class Creature {
         this.dead = false
         this.immunity = []
         this.resistance = []
+        this.vulnerabilities = []
         this.str = {}
         this.dex = {}
         this.con = {}

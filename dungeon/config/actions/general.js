@@ -79,6 +79,8 @@ const actions = {
                     damage = 0
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
                     damage = Math.floor(damage/2)
+                else if (target.vulnerabilities === 'any' || target.vulnerabilities.indexOf(damageType) !== -1)
+                    damage.damage *=2
                 // Handle bonus damage
                 let parsedBonusDamage = []
                 if (weapon.bonus.length > 0 || tempWeaponBonus.length > 0) {
@@ -86,11 +88,13 @@ const actions = {
                         const bonusDamage = parseDamage(bonus, damageType)
                         // Roll for damage
                         bonusDamage.damage = roll(bonusDamage.die, bonusDamage.mult, bonusDamage.mod, false, [])
-                        // Modify damage for immunity and resistance
+                        // Modify damage for immunity, resistance and vulnerability
                         if (target.immunity === 'any' || target.immunity.indexOf(bonusDamage.damageType) !== -1)
                             bonusDamage.damage = 0
                         else if (target.resistance === 'any' || target.resistance.indexOf(bonusDamage.damageType) !== -1)
                             bonusDamage.damage = Math.floor(bonusDamage.damage/2)
+                        else if (target.vulnerabilities === 'any' || target.vulnerabilities.indexOf(bonusDamage.damageType) !== -1)
+                            bonusDamage.damage *=2
                         // Add new damage to bonus damage
                         parsedBonusDamage.push(bonusDamage)
                     })
