@@ -12,6 +12,12 @@
         "AC": 12,
         "dexBonus": 10
     },
+    "Dagger": {
+        "type": "Weapon",
+        "damage": "1D4 P",
+        "mastery": "Nick",
+        "properties": ["Finesse", "Light", "Thrown"]
+    },
     "Greatsword": {
         "type": "Weapon",
         "damage": "2D6 S",
