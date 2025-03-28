@@ -18,11 +18,18 @@ const actions = {
 
             const mod = creature[weapon.ability].mod
 
+            // Fix any entry errors
+            if (!weapon.bonus)
+                weapon.bonus = []
+
             return function(creature, target, state, log) {
                 // Check for advantage to hit
                 let advantage = false
                 // Handle pack tactics
                 if (creature.traits && creature.traits.indexOf('Pack Tactics') !== -1 && state.room[creature.position].filter(c => !c.incapacitated).length > 1)
+                    advantage = true
+                // Handle hiding
+                if (creature.hidden)
                     advantage = true
                 // Check for disadvantage
                 let disadvantage = false
@@ -46,6 +53,14 @@ const actions = {
                 // Check vs AC
                 if (attackRoll < target.ac)
                     return log.push(`${creature.name}'s attack missed ${target.name} with a ${attackRoll}`)
+                // For storing temporary damage increases to weapons
+                const tempWeaponBonus = []
+                // Add extra damage from advantage abilities
+                let advantageBonusDamage = creature.traits ? creature.traits.filter(str => str.indexOf('Bonus Advantage ') !== -1)[0] : false
+                if (advantageBonusDamage && advantage) {
+                    // Add extra damage to bonus
+                    tempWeaponBonus.push(advantageBonusDamage.slice(16) + ' W')
+                }
                 // Construct options
                 const options = {}
                 advantage  = false
@@ -65,16 +80,21 @@ const actions = {
                 else if (target.resistance === 'any' || target.resistance.indexOf(damageType) !== -1)
                     damage = Math.floor(damage/2)
                 // Handle bonus damage
-                let parsedBonusDamage = null
-                if (weapon.bonus) {
-                    parsedBonusDamage = parseDamage(weapon.bonus)
-                    // Roll for damage
-                    parsedBonusDamage.damage = roll(parsedBonusDamage.die, parsedBonusDamage.mult, parsedBonusDamage.mod, false, [])
-                    // Modify damage for immunity and resistance
-                    if (target.immunity === 'any' || target.immunity.indexOf(parsedBonusDamage.damageType) !== -1)
-                        parsedBonusDamage.damage = 0
-                    else if (target.resistance === 'any' || target.resistance.indexOf(parsedBonusDamage.damageType) !== -1)
-                        parsedBonusDamage.damage = Math.floor(parsedBonusdamage.damage/2)
+                let parsedBonusDamage = []
+                if (weapon.bonus.length > 0 || tempWeaponBonus.length > 0) {
+                    (weapon.bonus.concat(tempWeaponBonus)).forEach(bonus => {
+                        const bonusDamage = parseDamage(bonus, damageType)
+                        // Roll for damage
+                        bonusDamage.damage = roll(bonusDamage.die, bonusDamage.mult, bonusDamage.mod, false, [])
+                        // Modify damage for immunity and resistance
+                        if (target.immunity === 'any' || target.immunity.indexOf(bonusDamage.damageType) !== -1)
+                            bonusDamage.damage = 0
+                        else if (target.resistance === 'any' || target.resistance.indexOf(bonusDamage.damageType) !== -1)
+                            bonusDamage.damage = Math.floor(bonusDamage.damage/2)
+                        // Add new damage to bonus damage
+                        parsedBonusDamage.push(bonusDamage)
+                    })
+                   
                 }
                 // // Save event for triggering other events
                 // target.latestEvent = {
@@ -83,9 +103,11 @@ const actions = {
                 //     crit: false
                 // }
                 // Log damage
-                log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage ${parsedBonusDamage ? `and ${parsedBonusDamage.damage} ${parsedBonusDamage.damageType} damage ` : ''}to ${target.name}`)
+                log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage ${parsedBonusDamage.length > 0 ? parsedBonusDamage.reduce((str, bonusDamage) => str + `and ${bonusDamage.damage} ${bonusDamage.damageType} damage `, '') : ''}to ${target.name}`)
                 // Apply damage
-                target.hp -= damage + (parsedBonusDamage ? parsedBonusDamage.damage : 0)
+                target.hp -= damage + (parsedBonusDamage.length > 0 ? parsedBonusDamage.reduce((total, {damage}) => total + damage, 0) : 0)
+                // Remove hidden
+                creature.hidden = false
                 return
             }
         }
@@ -114,7 +136,7 @@ const actions = {
     }
 }
 
-function parseDamage(damage) {
+function parseDamage(damage, weaponDamageType) {
     const mult = Number.parseInt(damage[0])
     const die = Number.parseInt(damage.slice(damage.toUpperCase().indexOf('D') + 1, damage.indexOf(' ') + 1))
     const damageType = function() {
@@ -129,6 +151,8 @@ function parseDamage(damage) {
                 return 'Necrotic'
             case 'F': // Use for any resistance bypassing damage for now
                 return 'Force'
+            case 'W': // Same damage type as weapon
+                return weaponDamageType
             default:
                 throw new Error(`Unsupported damage type ${damage[damage.length - 1]}`)
         }

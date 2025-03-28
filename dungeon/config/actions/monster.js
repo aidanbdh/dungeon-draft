@@ -5,7 +5,7 @@
 import { roll, check } from "../../helper.js"
 
 const actions = {
-    "Nimble Escape": {
+    "Nimble Escape Disengage": {
         priority: 0,
         range: 0,
         cost: ["Bonus Action"],
@@ -23,6 +23,21 @@ const actions = {
             log.push(`${creature.name} used Nimble Escape to Disengage`)
             if (newPosition !== creature.position)
                 state.move(creature, newPosition)
+        }
+    },
+    "Nimble Escape Hide": {
+        priority: 4,
+        range: 0,
+        cost: ['Bonus Action'],
+        target: 'self',
+        func: function(creature, _, __, log) {
+            // Make a stealth check
+            if (check(creature, 'Stealth', 15)) {
+                log.push(`${creature.name} successfully hid.`)
+               creature.hidden = true
+            } else {
+                log.push(`${creature.name} failed to hide.`)
+            }
         }
     },
     "Undead Fortitude": {

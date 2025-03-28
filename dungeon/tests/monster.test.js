@@ -6,6 +6,6 @@ const dodZombie = new Monster('Zombie')
 
 const sodSkeleton = new Monster('Skeleton')
 
-const gobGoblin = new Monster('Goblin Minion')
+const gobGoblin = new Monster('Goblin Warrior')
 
 console.log('Done testing monsters')
