@@ -198,6 +198,39 @@
         "equipment": ["Shortsword", "Shortbow"],
         "customEquipment": []
     },
+    "twig blight": {
+        "size": "s",
+        "species": "Plant",
+        "alignment": "Neutral Evil",
+        "ac": 14,
+        "initiative": 2,
+        "hp": "2D6",
+        "speed": 20,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 4,
+            "dex": 14,
+            "con": 11,
+            "int": 4,
+            "wis": 8,
+            "cha": 3
+        },
+        "languages": [],
+        "cr": 0.16,
+        "traits": ["Pack Tactics"],
+        "actions": [],
+        "events": [],
+        "proficiencies": ["Stealth"],
+        "equipment": [],
+        "vulnerabilities": ["Fire"],
+        "immunities": ["Deafened"],
+        "customEquipment": [{
+            "name": "Claw",
+            "type": "Weapon",
+            "damage": "1D4 S",
+            "properties": ["Two-Handed", "Finesse"]
+        }]
+    },
     "zombie": {
         "size": "m",
         "species": "Undead",

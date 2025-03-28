@@ -38,6 +38,9 @@ class Monster extends Creature {
         this.events = monster.events
         this.proficiencyBonus = monster.proficiencyBonus
         this.proficiencies = monster.proficiencies || []
+        this.immunity = monster.immunity || []
+        this.resistance = monster.resistance || []
+        this.vulnerabilities = monster.vulnerabilities || []
         // Set hp
         this.initializeHp(monster.hp)
         // Apply traits

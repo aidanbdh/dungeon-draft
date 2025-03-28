@@ -144,6 +144,8 @@ function conditionNotFulfilled(conditions, creature) {
         }
 
     }
+    // Return false if all confitions fulfilled
+    return false
 }
 
 function checkRange(range, creature, state) {

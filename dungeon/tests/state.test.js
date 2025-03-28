@@ -46,3 +46,20 @@ while (eylan.hp > 0 && !!state2.initiative.filter(val => val)[1]) {
 console.log(state2.log.join('\n'))
 
 console.log('Done testing state 2.')
+
+console.log('\n\nTesting state 3')
+
+const flan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
+
+const enemies3 = ['Twig Blight', 'Twig Blight', 'Twig Blight', 'Twig Blight'].map(monster => new Monster(monster))
+
+const state3 = new State([flan], enemies3)
+
+// Keep fighting until eylan dies or is the victor
+while (flan.hp > 0 && !!state3.initiative.filter(val => val)[1]) {
+    state3.turn()
+}
+
+console.log(state3.log.join('\n'))
+
+console.log('Done testing state 3.')
