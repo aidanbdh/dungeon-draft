@@ -18,6 +18,8 @@ class State {
         this.room.push(...[[], [], [], [], [], []])
         // Add the monsters
         this.room.push(...monsters.map(monster => [monster]))
+        // Save move helper
+        this.move = move
         // Initialize events object
         this.events = {}
         // Add each event
@@ -218,7 +220,7 @@ function checkRange(range, creature, state) {
     return target
 }
 
-function move(creature, newPosition, state) {
+function move(creature, newPosition, state = this) {
     if (creature.movement === 0)
         return
     // Only allow 4 creatures in a space
