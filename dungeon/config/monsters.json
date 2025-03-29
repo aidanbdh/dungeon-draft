@@ -170,6 +170,51 @@
         "equipment": ["Scimitar", "Shortbow"],
         "customEquipment": []
     },
+    "needle blight": {
+        "size": "m",
+        "species": "Plant",
+        "alignment": "Neutral Evil",
+        "ac": 12,
+        "initiative": 1,
+        "hp": "3D8 + 3",
+        "speed": 30,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 12,
+            "dex": 12,
+            "con": 13,
+            "int": 4,
+            "wis": 8,
+            "cha": 3
+        },
+        "languages": [],
+        "cr": 0.25,
+        "traits": [],
+        "actions": [],
+        "events": [],
+        "proficiencies": [],
+        "equipment": [],
+        "vulnerabilities": [],
+        "immunities": ["Deafened"],
+        "priorities": {
+            "actions": { 
+                "Attack-Claw": 2,
+                "Attack-Needles": 3
+            }
+        },
+        "customEquipment": [{
+            "name": "Claw",
+            "type": "Weapon",
+            "damage": "2D4 S",
+            "properties": ["Two-Handed"]
+        }, {
+            "name": "Needles",
+            "type": "Weapon",
+            "damage": "2D4 P",
+            "properties": ["Two-Handed"],
+            "range": [30, 60]
+        }]
+    },
     "skeleton": {
         "size": "m",
         "species": "Undead",
