@@ -276,6 +276,37 @@
             "properties": ["Two-Handed", "Finesse"]
         }]
     },
+    "wolf": {
+        "size": "m",
+        "species": "Beast",
+        "alignment": "Unaligned",
+        "ac": 12,
+        "initiative": 2,
+        "hp": "2D8 + 2",
+        "speed": 40,
+        "proficiencyBonus": 2,
+        "scores": {
+            "str": 14,
+            "dex": 15,
+            "con": 12,
+            "int": 3,
+            "wis": 12,
+            "cha": 6
+        },
+        "languages": [],
+        "cr": 0.25,
+        "traits": ["Pack Tactics"],
+        "actions": [],
+        "events": [],
+        "proficiencies": ["Perception", "Stealth"],
+        "equipment": [],
+        "customEquipment": [{
+            "name": "Bite",
+            "type": "Weapon",
+            "damage": "1D6 P",
+            "properties": ["Two-Handed", "Condition Prone"]
+        }]
+    },
     "zombie": {
         "size": "m",
         "species": "Undead",

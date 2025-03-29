@@ -51,7 +51,7 @@ console.log('\n\nTesting state 3')
 
 const flan = new Adventurer('human', 'fighter', 'warrior', 'soldier', 2, {})
 
-const enemies3 = ['Needle Blight', 'Needle Blight', 'Twig Blight', 'Twig Blight'].map(monster => new Monster(monster))
+const enemies3 = ['Needle Blight', 'Needle Blight', 'Twig Blight', 'Wolf'].map(monster => new Monster(monster))
 
 const state3 = new State([flan], enemies3)
 

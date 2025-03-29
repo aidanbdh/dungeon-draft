@@ -152,6 +152,17 @@ function checkRange(range, creature, state) {
     // Exit if creature is dead or fled
     if (creature.position === null)
         return false
+    // Stand up if prone
+    if (creature.prone) {
+        const halfSpeed = Math.floor(creature.speed / 5 / 2) * 5
+        if (creature.movement > halfSpeed) {
+            creature.movement -= halfSpeed
+            creature.prone = false
+            state.log.push(`${creature.name} stood up using ${halfSpeed}ft of movement.`)
+        } else {
+            creature.movement = 0
+        }
+    }
     // Check if the creature is a monster or adventurer
     const type = creature.constructor.name
     // Temporary handler for ranged weapons

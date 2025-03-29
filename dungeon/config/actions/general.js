@@ -31,6 +31,9 @@ const actions = {
                 // Handle hiding
                 if (creature.hidden)
                     advantage = true
+                // Handle prone
+                if (target.prone && (Math.sqrt((target.position - creature.position) ** 2)) === 1)
+                    advantage = true
                 // Check for disadvantage
                 let disadvantage = false
                 // Handle dodge action
@@ -110,6 +113,13 @@ const actions = {
                 log.push(`${creature.name}'s attack dealt ${damage} ${damageType} damage ${parsedBonusDamage.length > 0 ? parsedBonusDamage.reduce((str, bonusDamage) => str + `and ${bonusDamage.damage} ${bonusDamage.damageType} damage `, '') : ''}to ${target.name}`)
                 // Apply damage
                 target.hp -= damage + (parsedBonusDamage.length > 0 ? parsedBonusDamage.reduce((total, {damage}) => total + damage, 0) : 0)
+                // Apply any conditions
+                const conditions = weapon.properties.filter(prop => prop.indexOf('Condition ') !== -1)
+                if (conditions.length > 0) {
+                    conditions.forEach(condition => {
+                        target[condition.slice(10).toLowerCase()] = true
+                    })
+                }
                 // Remove hidden
                 creature.hidden = false
                 return

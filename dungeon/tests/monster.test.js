@@ -4,10 +4,10 @@ import { Monster } from "../classes/monster.js"
 
 const dodZombie = new Monster('Zombie')
 
-const sodSkeleton = new Monster('Skeleton')
-
 const godGoblin = new Monster('Goblin Warrior')
 
 const bodBlight = new Monster('Needle Blight')
+
+const wodWolf = new Monster('Wolf')
 
 console.log('Done testing monsters')
